@@ -9,6 +9,7 @@ var logos = List<Widget>.generate(
     50, (i) => Image.asset('/Users/ryeol/Desktop/logoKakao.png'));
 var rates = List<String>.generate(50, (i) => "Rate $i");
 var price = List<String>.generate(50, (i) => "Price $i");
+List<Widget> favoriteList = [];
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
@@ -87,22 +88,67 @@ class _ListPageState extends State<ListPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
+                                SizedBox(
+                                  height: 18,
+                                  width: 18,
+                                  child: IconButton(
+                                    padding: new EdgeInsets.all(0.0),
+                                    // splashRadius: 12,
+                                    onPressed: () {
+                                      setState(() {
+                                        favoriteList.add(SizedBox(
+                                          height: 80,
+                                          child: Card(
+                                            shadowColor:
+                                                Palette.containerShadow,
+                                            elevation: 3,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        favoriteList.remove(
+                                                            favoriteList[
+                                                                index]);
+                                                      });
+                                                    },
+                                                    icon: Icon(Icons.remove)),
+                                                Container(
+                                                  width: 50,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Palette
+                                                          .containerColor),
+                                                ),
+                                                Text(itemDatas),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Text(priceDatas),
+                                                    Text(rateDatas)
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ));
+                                      });
+                                    },
+                                    icon: Icon(Icons.favorite,
+                                        size: 18, color: Colors.amber),
+                                  ),
+                                ),
                                 Container(
                                   width: 50,
                                   height: 50,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Palette.containerColor),
-                                  // decoration: BoxDecoration(
-                                  //   shape: BoxShape.circle,
-                                  // image: DecorationImage(
-                                  //     fit: BoxFit.fill,
-                                  //     image: Image.asset('${logoDatas}')
-                                  //     // image: AssetImage(
-                                  //     //     '/Users/ryeol/Desktop/logoKakao.png')
-                                  //         )
-                                  // ),
-                                  // child: logoDatas,
                                 ),
                                 Text(itemDatas),
                                 Column(
@@ -154,6 +200,28 @@ class _ListPageState extends State<ListPage> {
                 ),
               ),
             ),
+            Tab(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.zero,
+                    itemCount: favoriteList == null ? 0 : favoriteList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // if (favoriteList[index] != null) {
+                      //   return favoriteList[index];
+                      // } else {
+                      //   return Center(
+                      //     child: Text(
+                      //       'There are no favorites yet!',
+                      //       style: TextStyle(color: Colors.black),
+                      //     ),
+                      //   );
+                      // }
+                      return favoriteList[index];
+                    }),
+              ),
+            )
           ],
         ),
       ),
