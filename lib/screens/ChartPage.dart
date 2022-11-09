@@ -220,7 +220,7 @@ class _ChartPage extends State<ChartPage> {
                                   return AlertDialog(
                                     alignment: Alignment.center,
                                     title: Text("매수"),
-                                    backgroundColor: Palette.outlineColor,
+                                    backgroundColor: Palette.bgColor,
                                     content: SingleChildScrollView(
                                       child: Column(
                                         mainAxisAlignment:
@@ -261,7 +261,7 @@ class _ChartPage extends State<ChartPage> {
                                   return AlertDialog(
                                     alignment: Alignment.center,
                                     title: Text("매도"),
-                                    backgroundColor: Palette.outlineColor,
+                                    backgroundColor: Palette.bgColor,
                                     content: SingleChildScrollView(
                                       child: Column(
                                         mainAxisAlignment:

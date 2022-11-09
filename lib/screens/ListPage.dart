@@ -87,9 +87,9 @@ class _ListPageState extends State<ListPage> {
                                   color: Palette.outlineColor,
                                   offset: Offset(
                                     0,
-                                    5.0,
+                                    2.0,
                                   ),
-                                  blurRadius: 5.0,
+                                  blurRadius: 2.0,
                                 )
                               ],
                               // border: Border.all(
