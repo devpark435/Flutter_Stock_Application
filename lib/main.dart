@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_flutter_app/asset/palette.dart';
 import 'package:stock_flutter_app/screens/ChartPage.dart';
 import '/screens/ListPage.dart';
 import './screens/SearchPage.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
       home: const MarketPage(),
@@ -73,6 +75,19 @@ class _MarketPageState extends State<MarketPage> {
         selectedItemColor: Colors.lightGreen,
         onTap: _onItemTapped,
       ),
+      // bottomNavigationBar: BottomAppBar(
+      //   color: Palette.containerColor,
+      //   child: IconTheme(
+      //     data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+      //     child: Row(
+      //       children: [
+      //         IconButton(onPressed: () => {}, icon: Icon(Icons.bar_chart)),
+      //         IconButton(onPressed: () => {}, icon: Icon(Icons.search)),
+      //         IconButton(onPressed: () => {}, icon: Icon(Icons.people)),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 
