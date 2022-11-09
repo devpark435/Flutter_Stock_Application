@@ -52,7 +52,7 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${widget.itemName} NewsPage'),
+          title: Text('${widget.itemName} 관련 소식'),
         ),
         body: SafeArea(
             child: productNames == null
@@ -73,37 +73,42 @@ class _NewsPageState extends State<NewsPage> {
                       return SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: Card(
-                          shadowColor: Palette.containerShadow,
-                          color: Palette.bgColor,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('${productNameText}'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    // Container(
-                                    //   child: Text(''),
-                                    // ),
-                                    InkWell(
-                                      onTap: () {
-                                        // uses UI Launcher to launch in web browser & minor tweaks to generate url
-                                        launch(Uri.encodeFull(
-                                            // webScraper.baseUrl! +
-                                            attributes['href']));
-                                      },
-                                      child: Text(
-                                        'View Product',
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                                    ),
-                                  ],
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Palette.bgColor,
+                                border: Border.all(
+                                    width: 1, color: Palette.outlineColor),
+                                borderRadius: BorderRadius.circular(25)),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('${productNameText}'),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      // Container(
+                                      //   child: Text(''),
+                                      // ),
+                                      InkWell(
+                                        onTap: () {
+                                          // uses UI Launcher to launch in web browser & minor tweaks to generate url
+                                          launch(Uri.encodeFull(
+                                              // webScraper.baseUrl! +
+                                              attributes['href']));
+                                        },
+                                        child: Text(
+                                          'View Product',
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

@@ -38,7 +38,7 @@ class _ChartPage extends State<ChartPage> {
         backgroundColor: Palette.bgColor,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Palette.containerShadow),
-          backgroundColor: Palette.containerColor,
+          backgroundColor: Palette.appbarColor,
           centerTitle: false,
           elevation: 0,
           actions: [
@@ -91,7 +91,7 @@ class _ChartPage extends State<ChartPage> {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 4,
-                    color: Palette.containerColor,
+                    color: Palette.outlineColor,
                     offset: Offset(0, 5),
                   )
                 ],
@@ -131,7 +131,7 @@ class _ChartPage extends State<ChartPage> {
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 4,
-                          color: Palette.containerColor,
+                          color: Palette.outlineColor,
                           offset: Offset(0, 5),
                         )
                       ],
@@ -177,7 +177,7 @@ class _ChartPage extends State<ChartPage> {
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 4,
-                        color: Palette.containerColor,
+                        color: Palette.outlineColor,
                         offset: Offset(0, 5),
                       )
                     ],
@@ -199,7 +199,7 @@ class _ChartPage extends State<ChartPage> {
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 4,
-                          color: Palette.containerColor,
+                          color: Palette.outlineColor,
                           offset: Offset(0, 5),
                         )
                       ],
@@ -220,7 +220,7 @@ class _ChartPage extends State<ChartPage> {
                                   return AlertDialog(
                                     alignment: Alignment.center,
                                     title: Text("매수"),
-                                    backgroundColor: Palette.containerColor,
+                                    backgroundColor: Palette.outlineColor,
                                     content: SingleChildScrollView(
                                       child: Column(
                                         mainAxisAlignment:
@@ -261,7 +261,7 @@ class _ChartPage extends State<ChartPage> {
                                   return AlertDialog(
                                     alignment: Alignment.center,
                                     title: Text("매도"),
-                                    backgroundColor: Palette.containerColor,
+                                    backgroundColor: Palette.outlineColor,
                                     content: SingleChildScrollView(
                                       child: Column(
                                         mainAxisAlignment:

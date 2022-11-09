@@ -34,7 +34,7 @@ class _SignupPage extends State<SignupPage> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
               decoration: BoxDecoration(
-                  color: Palette.containerColor,
+                  color: Palette.outlineColor,
                   borderRadius: BorderRadius.circular(15)),
               child: GestureDetector(
                 child: Padding(
@@ -65,7 +65,7 @@ class _SignupPage extends State<SignupPage> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
               decoration: BoxDecoration(
-                  color: Palette.containerColor,
+                  color: Palette.outlineColor,
                   borderRadius: BorderRadius.circular(15)),
               child: GestureDetector(
                 child: Padding(
@@ -96,7 +96,7 @@ class _SignupPage extends State<SignupPage> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
               decoration: BoxDecoration(
-                  color: Palette.containerColor,
+                  color: Palette.outlineColor,
                   borderRadius: BorderRadius.circular(15)),
               child: GestureDetector(
                 child: Padding(
@@ -127,7 +127,7 @@ class _SignupPage extends State<SignupPage> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 50,
               decoration: BoxDecoration(
-                  color: Palette.containerColor,
+                  color: Palette.outlineColor,
                   borderRadius: BorderRadius.circular(15)),
               child: GestureDetector(
                 child: Padding(
@@ -162,7 +162,7 @@ class _SignupPage extends State<SignupPage> {
                     height: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Palette.containerColor,
+                        color: Palette.outlineColor,
                         borderRadius: BorderRadius.circular(15)),
                     child: GestureDetector(
                       child: Text(
@@ -198,7 +198,7 @@ class _SignupPage extends State<SignupPage> {
                     height: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Palette.containerColor,
+                        color: Palette.outlineColor,
                         borderRadius: BorderRadius.circular(15)),
                     child: GestureDetector(
                       child: Text(

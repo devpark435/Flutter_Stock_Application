@@ -72,7 +72,7 @@ class _MarketPageState extends State<MarketPage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightGreen,
+        selectedItemColor: Palette.outlineColor,
         onTap: _onItemTapped,
       ),
       // bottomNavigationBar: BottomAppBar(

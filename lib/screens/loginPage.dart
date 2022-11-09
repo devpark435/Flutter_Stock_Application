@@ -34,7 +34,7 @@ class _LoginPage extends State<LoginPage> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: 50,
                 decoration: BoxDecoration(
-                    color: Palette.containerColor,
+                    color: Palette.outlineColor,
                     borderRadius: BorderRadius.circular(15)),
                 child: GestureDetector(
                   child: Padding(
@@ -64,7 +64,7 @@ class _LoginPage extends State<LoginPage> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: 50,
                 decoration: BoxDecoration(
-                    color: Palette.containerColor,
+                    color: Palette.outlineColor,
                     borderRadius: BorderRadius.circular(15)),
                 child: GestureDetector(
                   child: Padding(
@@ -99,7 +99,7 @@ class _LoginPage extends State<LoginPage> {
                       height: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: Palette.containerColor,
+                          color: Palette.outlineColor,
                           borderRadius: BorderRadius.circular(15)),
                       child: GestureDetector(
                         child: Text(
@@ -133,7 +133,7 @@ class _LoginPage extends State<LoginPage> {
                       height: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: Palette.containerColor,
+                          color: Palette.outlineColor,
                           borderRadius: BorderRadius.circular(15)),
                       child: GestureDetector(
                         child: Text(
@@ -164,7 +164,8 @@ class _LoginPage extends State<LoginPage> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => MyPage(title: 'title')));
         },
-        backgroundColor: Palette.containerColor,
+        backgroundColor: Palette.outlineColor,
+        child: Icon(Icons.people),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../asset/palette.dart';
 import '../screens/ChartPage.dart';
 
-var items = List<String>.generate(50, (i) => "카카오");
+var items = List<String>.generate(50, (i) => "카카오 $i");
 var logos = List<Widget>.generate(
     50, (i) => Image.asset('/Users/ryeol/Desktop/logoKakao.png'));
 var rates = List<String>.generate(50, (i) => "Rate $i");
@@ -28,24 +28,31 @@ class _ListPageState extends State<ListPage> {
       child: Scaffold(
         //MARK: Custom AppBar
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Stock Application',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Palette.outlineColor),
           ),
-          backgroundColor: Palette.containerColor,
+          backgroundColor: Palette.bgColor,
           centerTitle: false,
           elevation: 0,
           //MARK: bottom in tabBar
           bottom: TabBar(
-            indicatorColor: Palette.containerShadow,
+            indicatorColor: Palette.outlineColor,
             isScrollable: true,
-            indicatorWeight: 3,
+            indicatorWeight: 2,
             tabs: <Widget>[
               Tab(
-                child: Text("Ctg1"),
+                child: Text(
+                  "상장 순위",
+                  style: TextStyle(color: Palette.outlineColor),
+                ),
               ),
-              Tab(child: Text("Ctg2")),
-              Tab(child: Text("Ctg3")),
+              Tab(
+                  child: Text("즐겨찾기",
+                      style: TextStyle(color: Palette.outlineColor))),
             ],
           ),
         ),
@@ -70,93 +77,125 @@ class _ListPageState extends State<ListPage> {
                       return SizedBox(
                         height: 80,
                         child: Card(
-                          shadowColor: Palette.containerShadow,
-                          // color: Palette.containerColor,
-                          elevation: 3,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ChartPage(
-                                          title: 'ComparePage',
-                                          items: itemDatas,
-                                          logos: logoDatas,
-                                          rates: rateDatas,
-                                          prices: priceDatas)));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(
-                                  height: 18,
-                                  width: 18,
-                                  child: IconButton(
-                                    padding: new EdgeInsets.all(0.0),
-                                    // splashRadius: 12,
-                                    onPressed: () {
-                                      setState(() {
-                                        var i = 0;
-                                        favoriteList.add(SizedBox(
-                                          height: 80,
-                                          child: Card(
-                                            shadowColor:
-                                                Palette.containerShadow,
-                                            elevation: 3,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        favoriteList.remove(
-                                                            favoriteList[i]);
-                                                      });
-                                                    },
-                                                    icon: Icon(Icons.remove)),
-                                                Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Palette
-                                                          .containerColor),
-                                                ),
-                                                Text(items[index]),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Text(price[index]),
-                                                    Text(rates[index])
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ));
-                                      });
-                                    },
-                                    icon: Icon(Icons.favorite,
-                                        size: 18, color: Colors.amber),
+                          elevation: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Palette.bgColor,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Palette.outlineColor,
+                                  offset: Offset(
+                                    0,
+                                    5.0,
                                   ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Palette.containerColor),
-                                ),
-                                Text(itemDatas),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [Text(priceDatas), Text(rateDatas)],
-                                ),
+                                  blurRadius: 5.0,
+                                )
                               ],
+                              // border: Border.all(
+                              //   width: 1,
+                              //   color: Palette.outlineColor,
+                              // ),
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ChartPage(
+                                            title: 'ComparePage',
+                                            items: itemDatas,
+                                            logos: logoDatas,
+                                            rates: rateDatas,
+                                            prices: priceDatas)));
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    height: 18,
+                                    width: 18,
+                                    child: IconButton(
+                                      padding: const EdgeInsets.all(0.0),
+                                      // splashRadius: 12,
+                                      onPressed: () {
+                                        setState(() {
+                                          var i = 0;
+                                          favoriteList.add(SizedBox(
+                                            height: 80,
+                                            child: Card(
+                                              shadowColor: Colors.black,
+                                              elevation: 0,
+                                              color: Palette.bgColor,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          favoriteList.remove(
+                                                              favoriteList[i]);
+                                                        });
+                                                      },
+                                                      icon: Icon(Icons.remove)),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        width: 1,
+                                                        color: Palette
+                                                            .outlineColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(items[index]),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(price[index]),
+                                                      Text(rates[index])
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ));
+                                        });
+                                      },
+                                      icon: Icon(Icons.favorite,
+                                          size: 18,
+                                          color: Palette.outlineColor),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Palette.outlineColor,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(itemDatas),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(priceDatas),
+                                      Text(rateDatas)
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -176,30 +215,7 @@ class _ListPageState extends State<ListPage> {
                 // ),
               ),
             ),
-            Tab(
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.zero,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: GestureDetector(
-                          //   onTap: () {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (context) =>
-                          //                 ChartPage(title: 'ChartPage')));
-                          //   },
-                          // child: ListBox(),
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+
             Tab(
               child: Padding(
                 padding: EdgeInsets.all(10),

@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.3.49
   web_scraper: ^0.1.4
   url_launcher: ^6.1.6
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:

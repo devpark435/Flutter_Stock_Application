@@ -13,7 +13,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPage extends State<SearchPage> {
-  int searchText = 0;
+  String searchText = '';
+  int searchTextNum = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +24,7 @@ class _SearchPage extends State<SearchPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Palette.bgColor,
-              ),
+            Center(
               child: Text(
                 "Stock Application",
               ),
@@ -37,56 +33,115 @@ class _SearchPage extends State<SearchPage> {
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: 50,
+                height: 70,
                 decoration: BoxDecoration(
                   color: Palette.bgColor,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 4,
-                      color: Palette.containerShadow,
-                      offset: Offset(0, 2),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    width: 1,
+                    color: Palette.outlineColor,
+                  ),
                 ),
-                alignment: AlignmentDirectional(0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      width: 200,
-                      decoration: BoxDecoration(color: Palette.bgColor),
-                      margin: EdgeInsets.all(10),
-                      child: TextField(
-                        onSubmitted: (text) {
-                          setState(() {
-                            searchText = int.parse(text);
-                          });
-                        },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChartPage(
+                                          title: 'ComparePage',
+                                          items: items[searchTextNum],
+                                          logos: logos[searchTextNum],
+                                          rates: rates[searchTextNum],
+                                          prices: price[searchTextNum],
+                                        )));
+                          },
+                          icon: Icon(Icons.search)),
+                      hintText: 'Search',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20.0)),
+                        borderSide: BorderSide(
+                          color: Palette.bgColor,
+                        ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: IconButton(
-                        icon: Icon(Icons.search),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChartPage(
-                                        title: 'ComparePage',
-                                        items: items[searchText],
-                                        logos: logos[searchText],
-                                        rates: rates[searchText],
-                                        prices: price[searchText],
-                                      )));
-                        },
-                      ),
-                    )
-                  ],
+                    onSubmitted: (text) {
+                      setState(() {
+                        searchText = text;
+                        searchTextNum = items.indexOf(searchText);
+                      });
+                    },
+                    // onTap: () {
+                    //   Navigator.push(
+                    //       context, MaterialPageRoute(builder: (context) => {
+                    //         ChartPage(title: 'ComparePage',
+                    //                     items: items[searchTextNum],
+                    //                     logos: logos[searchTextNum],
+                    //                     rates: rates[searchTextNum],
+                    //                     prices: price[searchTextNum],)
+                    //       }));
+                    // },
+                  ),
                 ),
               ),
+              // child: Container(
+              //   width: MediaQuery.of(context).size.width * 0.9,
+              //   height: 50,
+              //   decoration: BoxDecoration(
+              //     color: Palette.bgColor,
+              //     boxShadow: [
+              //       BoxShadow(
+              //         blurRadius: 4,
+              //         color: Palette.containerShadow,
+              //         offset: Offset(0, 2),
+              //       )
+              //     ],
+              //     borderRadius: BorderRadius.circular(25),
+              //   ),
+              //   alignment: AlignmentDirectional(0, 0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: <Widget>[
+              //       Container(
+              //         alignment: Alignment.center,
+              //         width: 200,
+              //         decoration: BoxDecoration(color: Palette.bgColor),
+              //         margin: EdgeInsets.all(10),
+              //         child: TextField(
+
+              //           onSubmitted: (text) {
+              //             setState(() {
+              //               searchText = int.parse(text);
+              //             });
+              //           },
+              //         ),
+              //       ),
+              //       Container(
+              //         margin: EdgeInsets.all(10),
+              //         child: IconButton(
+              //           icon: Icon(Icons.search),
+              //           onPressed: () {
+              //             Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (context) => ChartPage(
+              //                           title: 'ComparePage',
+              //                           items: items[searchText],
+              //                           logos: logos[searchText],
+              //                           rates: rates[searchText],
+              //                           prices: price[searchText],
+              //                         )));
+              //           },
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
             )
           ]),
     );
