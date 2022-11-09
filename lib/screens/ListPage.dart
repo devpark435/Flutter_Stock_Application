@@ -96,6 +96,7 @@ class _ListPageState extends State<ListPage> {
                                     // splashRadius: 12,
                                     onPressed: () {
                                       setState(() {
+                                        var i = 0;
                                         favoriteList.add(SizedBox(
                                           height: 80,
                                           child: Card(
@@ -110,8 +111,7 @@ class _ListPageState extends State<ListPage> {
                                                     onPressed: () {
                                                       setState(() {
                                                         favoriteList.remove(
-                                                            favoriteList[
-                                                                index]);
+                                                            favoriteList[i]);
                                                       });
                                                     },
                                                     icon: Icon(Icons.remove)),
@@ -123,14 +123,14 @@ class _ListPageState extends State<ListPage> {
                                                       color: Palette
                                                           .containerColor),
                                                 ),
-                                                Text(itemDatas),
+                                                Text(items[index]),
                                                 Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceAround,
                                                   children: [
-                                                    Text(priceDatas),
-                                                    Text(rateDatas)
+                                                    Text(price[index]),
+                                                    Text(rates[index])
                                                   ],
                                                 ),
                                               ],
@@ -208,6 +208,7 @@ class _ListPageState extends State<ListPage> {
                     padding: EdgeInsets.zero,
                     itemCount: favoriteList == null ? 0 : favoriteList.length,
                     itemBuilder: (BuildContext context, int index) {
+                      var i = 0;
                       // if (favoriteList[index] != null) {
                       //   return favoriteList[index];
                       // } else {
