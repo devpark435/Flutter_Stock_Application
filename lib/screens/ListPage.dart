@@ -92,10 +92,6 @@ class _ListPageState extends State<ListPage> {
                                   blurRadius: 2.0,
                                 )
                               ],
-                              // border: Border.all(
-                              //   width: 1,
-                              //   color: Palette.outlineColor,
-                              // ),
                             ),
                             child: GestureDetector(
                               onTap: () {
@@ -120,56 +116,85 @@ class _ListPageState extends State<ListPage> {
                                       padding: const EdgeInsets.all(0.0),
                                       // splashRadius: 12,
                                       onPressed: () {
+                                        //즐겨찾기 추가
                                         setState(() {
                                           var i = 0;
-                                          favoriteList.add(SizedBox(
-                                            height: 80,
-                                            child: Card(
-                                              shadowColor: Colors.black,
-                                              elevation: 0,
-                                              color: Palette.bgColor,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          favoriteList.remove(
-                                                              favoriteList[i]);
-                                                        });
-                                                      },
-                                                      icon: Icon(Icons.remove)),
-                                                  Container(
-                                                    width: 50,
-                                                    height: 50,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                        width: 1,
-                                                        color: Palette
-                                                            .outlineColor,
-                                                      ),
+                                          favoriteList.add(Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Palette.bgColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Palette.outlineColor,
+                                                    offset: Offset(
+                                                      0,
+                                                      2.0,
                                                     ),
-                                                  ),
-                                                  Text(items[index]),
-                                                  Column(
+                                                    blurRadius: 2.0,
+                                                  )
+                                                ],
+                                              ),
+                                              child: SizedBox(
+                                                height: 80,
+                                                child: Card(
+                                                  shadowColor: Colors.black,
+                                                  elevation: 0,
+                                                  color: Palette.bgColor,
+                                                  child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceAround,
                                                     children: [
-                                                      Text(price[index]),
-                                                      Text(rates[index])
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              favoriteList.remove(
+                                                                  favoriteList[
+                                                                      i]);
+                                                              i++;
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                              Icons.favorite,
+                                                              size: 18,
+                                                              color: Palette
+                                                                  .outlineColor)),
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            width: 1,
+                                                            color: Palette
+                                                                .outlineColor,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(items[index]),
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        children: [
+                                                          Text(price[index]),
+                                                          Text(rates[index])
+                                                        ],
+                                                      ),
                                                     ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
                                             ),
                                           ));
                                         });
                                       },
-                                      icon: Icon(Icons.favorite,
+                                      icon: Icon(Icons.favorite_border,
                                           size: 18,
                                           color: Palette.outlineColor),
                                     ),
