@@ -4,6 +4,7 @@ import 'ListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/widgets/customWidget.dart';
 import '../asset/palette.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key, required this.title});
@@ -49,16 +50,21 @@ class _SearchPage extends State<SearchPage> {
                     decoration: InputDecoration(
                       prefixIcon: IconButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChartPage(
-                                          title: 'ComparePage',
-                                          items: items[searchTextNum],
-                                          logos: logos[searchTextNum],
-                                          rates: rates[searchTextNum],
-                                          prices: price[searchTextNum],
-                                        )));
+                            //검색어 null값 Handler
+                            if (searchTextNum != -1) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChartPage(
+                                            title: 'ComparePage',
+                                            items: items[searchTextNum],
+                                            logos: logos[searchTextNum],
+                                            rates: rates[searchTextNum],
+                                            prices: price[searchTextNum],
+                                          )));
+                            } else {
+                              return showToast('콩쥐야 조때써');
+                            }
                           },
                           icon: Icon(Icons.search)),
                       hintText: 'Search',
@@ -146,4 +152,12 @@ class _SearchPage extends State<SearchPage> {
           ]),
     );
   }
+}
+
+void showToast(String msg) {
+  Fluttertoast.showToast(
+      msg: msg,
+      backgroundColor: Color.fromARGB(255, 109, 106, 251),
+      textColor: Color.fromARGB(255, 215, 212, 212),
+      fontSize: 25.0);
 }
