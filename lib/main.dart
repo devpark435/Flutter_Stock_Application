@@ -7,22 +7,26 @@ import 'screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import './firebase/auth_service.dart';
+import 'package:web_scraper/web_scraper.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
-//   await Firebase.initializeApp(); // firebase 앱 시작
-//   runApp(
-//     MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (context) => AuthService()),
-//       ],
-//       child: const MyApp(),
-//     ),
-//   );
+// void main() {
+
+//   runApp(const MyApp());
 // }
+Future<void> main() async {
+  // WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
+  // await Firebase.initializeApp(); // firebase 앱 시작
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
