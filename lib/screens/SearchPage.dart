@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/widgets/customWidget.dart';
 import '../asset/palette.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'Stock_List.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key, required this.title});
@@ -101,6 +102,14 @@ class _SearchPage extends State<SearchPage> {
               ),
             )
           ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => stockLsit()));
+        },
+        backgroundColor: Palette.outlineColor,
+        child: Icon(Icons.people),
+      ),
     );
   }
 }

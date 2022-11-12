@@ -58,7 +58,7 @@ class _ChartPage extends State<ChartPage> {
           ],
           title: Text(widget.items),
         ),
-        body: SafeArea(
+        body: SingleChildScrollView(
           child: Column(children: [
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +85,7 @@ class _ChartPage extends State<ChartPage> {
               // ItmeNameContainer
               margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: 150,
               decoration: BoxDecoration(
                 color: Palette.bgColor,
                 boxShadow: [
@@ -100,16 +100,7 @@ class _ChartPage extends State<ChartPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(
-                                '/Users/ryeol/Desktop/logoKakao.png'))),
-                  ),
+                  widget.logos,
                   Text(widget.items),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
