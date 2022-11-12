@@ -60,7 +60,7 @@ class _SearchPage extends State<SearchPage> {
                         prefixIcon: IconButton(
                             onPressed: () {
                               //검색어 null값 Handler
-                              try {
+                              if (searchTextNum != -1) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -75,8 +75,8 @@ class _SearchPage extends State<SearchPage> {
                                                   searchTextNum],
                                             )));
                                 return showToast('${searchTextNum}');
-                              } catch (e) {
-                                return showToast('검색어랑 일치하는 내용이 없습니다.$e');
+                              } else {
+                                return showToast('검색어랑 일치하는 내용이 없습니다.');
                               }
                               // return showToast('${searchTextNum}');
                             },
@@ -99,9 +99,14 @@ class _SearchPage extends State<SearchPage> {
                       onSubmitted: (text) {
                         setState(() {
                           searchText = text;
-                          searchTextNum = stockName!.indexOf(
-                              cp949.encodeToString(
-                                  searchText)); //, attributes:  null}}, {title:
+                          if (stockName!
+                                  .indexOf(cp949.encodeToString(searchText)) ==
+                              null) {
+                            searchTextNum = -1;
+                          } else {
+                            searchTextNum = stockName!
+                                .indexOf(cp949.encodeToString(searchText));
+                          } //, attributes:  null}}, {title:
                         });
                       },
                     ),
