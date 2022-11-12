@@ -24,6 +24,9 @@ var logos = List<Widget>.generate(
 var rates = List<String>.generate(50, (i) => "Rate $i");
 var price = List<String>.generate(50, (i) => "Price $i");
 List<Widget> favoriteList = [];
+List<String>? stockName;
+late List<String> stockRateScrap;
+late List<String> stockAgoRateScrap;
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
@@ -37,9 +40,6 @@ class _ListPageState extends State<ListPage> {
   // initialize WebScraper by passing base url of website
   final webScraper = WebScraper('https://finance.naver.com/');
   // Response of getElement is always List<Map<String, dynamic>>
-  List<Map<String, dynamic>>? stockName;
-  late List<Map<String, dynamic>> stockRateScrap;
-  late List<Map<String, dynamic>> stockAgoRateScrap;
 
   void fetchProducts() async {
     // Loads web page and downloads into local state of library
@@ -47,22 +47,22 @@ class _ListPageState extends State<ListPage> {
       setState(() {
         // getElement takes the address of html tag/element and attributes you want to scrap from website
         // it will return the attributes in the same order passed
-        stockName = webScraper.getElement(
-            //주식명 scrap
-            // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(2) > a")
-            'div.box_type_l > table.type_2 > tbody > tr > td > a',
-            ['title']);
-        stockRateScrap = webScraper.getElement(
-            //등락률 scrap
-            //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
-            //
-            'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red01',
-            ['tah p11 red01']);
-        stockAgoRateScrap = webScraper.getElement(
-            //전일대비 scrap
-            //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
-            'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red02',
-            ['tah p11 red01']);
+        stockName = webScraper.getElementTitle(
+          //주식명 scrap
+          // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(2) > a")
+          'div.box_type_l > table.type_2 > tbody > tr > td > a',
+        );
+        stockRateScrap = webScraper.getElementTitle(
+          //등락률 scrap
+          //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
+          //
+          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red01',
+        );
+        stockAgoRateScrap = webScraper.getElementTitle(
+          //전일대비 scrap
+          //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
+          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red02',
+        );
       });
     }
   }
@@ -127,12 +127,9 @@ class _ListPageState extends State<ListPage> {
                     : ListView.builder(
                         scrollDirection: Axis.vertical,
                         padding: EdgeInsets.zero,
-                        itemCount: items == null ? 0 : items.length,
+                        itemCount: stockName == null ? 0 : stockName?.length,
                         itemBuilder: (BuildContext context, int index) {
-                          var itemDatas = items![index];
                           var logoDatas = logos![index];
-                          var rateDatas = rates![index];
-                          var priceDatas = price![index];
                           var stocksplit1 = stockName?[index]
                               .toString()
                               .replaceAll('{title:', '');
@@ -301,7 +298,8 @@ class _ListPageState extends State<ListPage> {
                                               ),
                                             ),
                                           ),
-                                          Text(stockTitle),
+                                          Text(cp949
+                                              .decodeString(stockName![index])),
                                           Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,

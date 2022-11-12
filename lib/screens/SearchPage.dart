@@ -6,6 +6,7 @@ import 'package:stock_flutter_app/widgets/customWidget.dart';
 import '../asset/palette.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Stock_List.dart';
+import 'package:cp949/cp949.dart' as cp949;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key, required this.title});
@@ -59,20 +60,25 @@ class _SearchPage extends State<SearchPage> {
                         prefixIcon: IconButton(
                             onPressed: () {
                               //검색어 null값 Handler
-                              if (searchTextNum != -1) {
+                              try {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ChartPage(
                                               title: 'ComparePage',
-                                              items: items[searchTextNum],
+                                              items: cp949.decodeString(
+                                                  stockName![searchTextNum]),
                                               logos: logos[searchTextNum],
-                                              rates: rates[searchTextNum],
-                                              prices: price[searchTextNum],
+                                              rates:
+                                                  stockRateScrap[searchTextNum],
+                                              prices: stockAgoRateScrap[
+                                                  searchTextNum],
                                             )));
-                              } else {
-                                return showToast('검색어랑 일치하는 내용이 없습니다.');
+                                return showToast('${searchTextNum}');
+                              } catch (e) {
+                                return showToast('검색어랑 일치하는 내용이 없습니다.$e');
                               }
+                              // return showToast('${searchTextNum}');
                             },
                             icon: Icon(Icons.search)),
                         suffixIcon: IconButton(
@@ -93,7 +99,9 @@ class _SearchPage extends State<SearchPage> {
                       onSubmitted: (text) {
                         setState(() {
                           searchText = text;
-                          searchTextNum = items.indexOf(searchText);
+                          searchTextNum = stockName!.indexOf(
+                              cp949.encodeToString(
+                                  searchText)); //, attributes:  null}}, {title:
                         });
                       },
                     ),
