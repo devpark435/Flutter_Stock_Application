@@ -12,20 +12,21 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' show Utf8Encoder, utf8;
 import 'package:cp949/cp949.dart' as cp949;
 
-class stockLsit extends StatefulWidget {
-  const stockLsit({super.key});
+class stockList extends StatefulWidget {
+  const stockList({super.key});
 
   @override
-  State<stockLsit> createState() => _stockLsitState();
+  State<stockList> createState() => _stockListState();
 }
 
-class _stockLsitState extends State<stockLsit> {
+class _stockListState extends State<stockList> {
   // initialize WebScraper by passing base url of website
   final webScraper = WebScraper('https://finance.naver.com/');
   // Response of getElement is always List<Map<String, dynamic>>
   List<String>? stockName;
   late List<String> stockRateScrap;
   late List<String> stockAgoRateScrap;
+  var stockRateScrapDocument;
 
   void fetchProducts() async {
     // Loads web page and downloads into local state of library
@@ -42,13 +43,15 @@ class _stockLsitState extends State<stockLsit> {
           //등락률 scrap
           //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
           //
-          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red01',
+          'div.box_type_l > table.type_2 > tbody > tr > td >span.tah.p11',
         );
         stockAgoRateScrap = webScraper.getElementTitle(
           //전일대비 scrap
           //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
-          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red02',
+          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11',
         );
+        stockRateScrapDocument =
+            ("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span");
       });
     }
   }
@@ -79,106 +82,111 @@ class _stockLsitState extends State<stockLsit> {
                 : ListView.builder(
                     itemCount: stockName!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var stocksplit1 = stockName?[index]
-                          .toString()
-                          .replaceAll('{title:', '');
-                      var stocksplit2 =
-                          stocksplit1!.replaceAll(', attributes:  null}}', '');
-                      var rateSplit1 = stockRateScrap?[index]
-                          .toString()
-                          .replaceAll('{title: ', '');
-                      var ratePriceSplit1 = stockAgoRateScrap?[index]
-                          .toString()
-                          .replaceAll('{title: ', '');
-                      var stockRatePrice = ratePriceSplit1!.replaceAll(
-                          ', attributes: {tah p11 red01: null}}', '원');
-                      var stockRate = rateSplit1!.replaceAll(
-                          ', attributes: {tah p11 red01: null}}', '');
-                      var stockTitle = cp949.decodeString(stocksplit2);
-
-                      if (stockTitle != ' ') {
-                        return SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            child: Card(
-                              elevation: 0,
-                              color: Palette.bgColor,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Palette.bgColor,
-                                    border: Border.all(
-                                        width: 1, color: Palette.outlineColor),
-                                    borderRadius: BorderRadius.circular(25)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      //News List Container
-                                      decoration: BoxDecoration(
-                                          color: Palette.bgColor,
-                                          border: Border.all(
-                                              width: 1,
-                                              color: Palette.outlineColor),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            //News Title
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                '${cp949.decodeString(stockName![index])}'),
-                                          ),
-                                        ],
-                                      ),
+                      // if (stockTitle != ' ') {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: Card(
+                            elevation: 0,
+                            color: Palette.bgColor,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Palette.bgColor,
+                                  border: Border.all(
+                                      width: 1, color: Palette.outlineColor),
+                                  borderRadius: BorderRadius.circular(25)),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    //News List Container
+                                    decoration: BoxDecoration(
+                                        color: Palette.bgColor,
+                                        border: Border.all(
+                                            width: 1,
+                                            color: Palette.outlineColor),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          //News Title
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              '${cp949.decodeString(stockName![index])}'),
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      //News List Container
-                                      decoration: BoxDecoration(
-                                          color: Palette.bgColor,
-                                          border: Border.all(
-                                              width: 1,
-                                              color: Palette.outlineColor),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            //News Title
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('${stockRate}'),
-                                          ),
-                                        ],
-                                      ),
+                                  ),
+                                  Container(
+                                    //News List Container
+                                    decoration: BoxDecoration(
+                                        color: Palette.bgColor,
+                                        border: Border.all(
+                                            width: 1,
+                                            color: Palette.outlineColor),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          //News Title
+                                          padding: const EdgeInsets.all(8.0),
+                                          child:
+                                              Text('${stockRateScrap[index]}'),
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      //News List Container
-                                      decoration: BoxDecoration(
-                                          color: Palette.bgColor,
-                                          border: Border.all(
-                                              width: 1,
-                                              color: Palette.outlineColor),
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            //News Title
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('${stockRatePrice}'),
-                                          ),
-                                        ],
-                                      ),
+                                  ),
+                                  Container(
+                                    //News List Container
+                                    decoration: BoxDecoration(
+                                        color: Palette.bgColor,
+                                        border: Border.all(
+                                            width: 1,
+                                            color: Palette.outlineColor),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          //News Title
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              '${stockAgoRateScrap[index]}'),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    //News List Container
+                                    decoration: BoxDecoration(
+                                        color: Palette.bgColor,
+                                        border: Border.all(
+                                            width: 1,
+                                            color: Palette.outlineColor),
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          //News Title
+                                          padding: const EdgeInsets.all(8.0),
+                                          child:
+                                              Text('${stockRateScrapDocument}'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        );
-                      } else {
-                        return SizedBox.shrink();
-                      }
+                        ),
+                      );
+                      // } else {
+                      //   return SizedBox.shrink();
+                      // }
 
                       ;
                     },

@@ -259,43 +259,52 @@ class _ChartPage extends State<ChartPage> {
                             icon: const Icon(Icons.money_off_csred),
                             color: Palette.moneyOffColor,
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      alignment: Alignment.center,
-                                      title: Text("매도"),
-                                      backgroundColor: Palette.bgColor,
-                                      content: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            TextField(
-                                              onTap: () {
-                                                FocusScope.of(context)
-                                                    .unfocus();
-                                              },
-                                              onChanged: (text) {
-                                                setState(() {
-                                                  selling = text;
-                                                });
-                                              },
-                                              obscureText: false,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                labelText: '몇 주를 매도하시겠습니까?',
+                              if (authService.currentUser() != null) {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        alignment: Alignment.center,
+                                        title: Text("매도"),
+                                        backgroundColor: Palette.bgColor,
+                                        content: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextField(
+                                                onTap: () {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                },
+                                                onChanged: (text) {
+                                                  setState(() {
+                                                    selling = text;
+                                                  });
+                                                },
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  labelText: '몇 주를 매도하시겠습니까?',
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.number,
                                               ),
-                                              keyboardType:
-                                                  TextInputType.number,
-                                            ),
-                                            Text(selling + "주를 매도합니다."),
-                                          ],
+                                              Text(selling + "주를 매도합니다."),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  });
+                                      );
+                                    });
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage(
+                                              title: '',
+                                            )));
+                              }
                             },
                           )
                         ],
