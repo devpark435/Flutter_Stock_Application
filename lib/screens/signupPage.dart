@@ -188,7 +188,8 @@ class _SignupPage extends State<SignupPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             onTap: () {
-                              authService.signUp(
+                              if (signPW==checkPW) {
+                                authService.signUp(
                                 email: emailController.text,
                                 password: passwordController.text,
                                 onSuccess: () {
@@ -228,6 +229,22 @@ class _SignupPage extends State<SignupPage> {
                                   ));
                                 },
                               );
+                              } else {
+                                showDialog(
+                                      context: context,
+                                      builder: ((context) {
+                                        return AlertDialog(
+                                          title: const Text('비밀번호를 확인해주세요'),
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: [
+                                                Text('두 비밀번호가 일치하지 않습니다'),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }));
+                              }
                             },
                           )
                           // ),

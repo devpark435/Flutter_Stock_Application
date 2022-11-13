@@ -107,7 +107,22 @@ class _ChartPage extends State<ChartPage> {
                     Text(widget.items),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [Text(widget.prices), Text(widget.rates)],
+                      children: [
+                        Text(
+                          widget.prices,
+                          style: TextStyle(
+                              color: widget.rates.indexOf('-') > 0
+                                  ? Palette.moneyColor
+                                  : Palette.moneyOffColor),
+                        ),
+                        Text(
+                          widget.rates,
+                          style: TextStyle(
+                              color: widget.rates.indexOf('-') > 0
+                                  ? Palette.moneyColor
+                                  : Palette.moneyOffColor),
+                        )
+                      ],
                     ),
                   ],
                 ),

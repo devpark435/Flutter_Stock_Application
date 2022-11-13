@@ -8,5 +8,5 @@ class Palette {
   static get listColor => Color.fromARGB(255, 255, 255, 255);
   static get containerShadow => Color(0xffADC2A9);
   static get moneyColor => Color.fromARGB(255, 95, 156, 247);
-  static get moneyOffColor => Color.fromRGBO(244, 67, 54, 1);
+  static get moneyOffColor => Color.fromARGB(255, 193, 89, 81);
 }

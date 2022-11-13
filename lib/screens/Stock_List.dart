@@ -24,9 +24,9 @@ class _stockListState extends State<stockList> {
   final webScraper = WebScraper('https://finance.naver.com/');
   // Response of getElement is always List<Map<String, dynamic>>
   List<String>? stockName;
-  late List<String> stockRateScrap;
-  late List<String> stockAgoRateScrap;
-  var stockRateScrapDocument;
+  late List<String> stockRateScrap = []; //등락률
+  late List<String> stockAgoRateScrap = []; //등락금액
+  late List<String> stockDataScrap;
 
   void fetchProducts() async {
     // Loads web page and downloads into local state of library
@@ -39,19 +39,24 @@ class _stockListState extends State<stockList> {
           // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(2) > a")
           'div.box_type_l > table.type_2 > tbody > tr > td > a',
         );
-        stockRateScrap = webScraper.getElementTitle(
+        stockDataScrap = webScraper.getElementTitle(
           //등락률 scrap
           //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
           //
           'div.box_type_l > table.type_2 > tbody > tr > td >span.tah.p11',
         );
-        stockAgoRateScrap = webScraper.getElementTitle(
-          //전일대비 scrap
-          //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
-          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11',
-        );
-        stockRateScrapDocument =
-            ("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span");
+        // stockAgoRateScrap = webScraper.getElementTitle(
+        //   //전일대비 scrap
+        //   //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
+        //   'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11',
+        // );
+        for (var i = 0; i < stockDataScrap.length; i++) {
+          if (i % 2 == 0) {
+            stockAgoRateScrap.add(stockDataScrap[i]);
+          } else {
+            stockRateScrap.add(stockDataScrap[i]);
+          }
+        }
       });
     }
   }
@@ -154,26 +159,6 @@ class _stockListState extends State<stockList> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                               '${stockAgoRateScrap[index]}'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    //News List Container
-                                    decoration: BoxDecoration(
-                                        color: Palette.bgColor,
-                                        border: Border.all(
-                                            width: 1,
-                                            color: Palette.outlineColor),
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          //News Title
-                                          padding: const EdgeInsets.all(8.0),
-                                          child:
-                                              Text('${stockRateScrapDocument}'),
                                         ),
                                       ],
                                     ),

@@ -26,8 +26,9 @@ var rates = List<String>.generate(50, (i) => "Rate $i");
 var price = List<String>.generate(50, (i) => "Price $i");
 List<Widget> favoriteList = [];
 List<String>? stockName;
-late List<String> stockRateScrap;
-late List<String> stockAgoRateScrap;
+late List<String> stockRateScrap = [];
+late List<String> stockAgoRateScrap = [];
+late List<String> stockDataScrap;
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
@@ -53,17 +54,32 @@ class _ListPageState extends State<ListPage> {
           // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(2) > a")
           'div.box_type_l > table.type_2 > tbody > tr > td > a',
         );
-        stockRateScrap = webScraper.getElementTitle(
-          //등락률 scrap
+        // stockRateScrap = webScraper.getElementTitle(
+        //   //등락률 scrap
+        //   //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
+        //   //
+        //   'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red01',
+        // );
+        // stockAgoRateScrap = webScraper.getElementTitle(
+        //   //전일대비 scrap
+        //   //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
+        //   'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red02',
+        // );
+        stockDataScrap = webScraper.getElementTitle(
+          //등락률, 전일가격scrap
           //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
           //
-          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red01',
+          'div.box_type_l > table.type_2 > tbody > tr > td >span.tah.p11',
         );
-        stockAgoRateScrap = webScraper.getElementTitle(
-          //전일대비 scrap
-          //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
-          'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11.red02',
-        );
+
+        for (var i = 0; i < stockDataScrap.length; i++) {
+          //등락률 전일가격 나누기
+          if (i % 2 == 0) {
+            stockAgoRateScrap.add(stockDataScrap[i]);
+          } else {
+            stockRateScrap.add(stockDataScrap[i]);
+          }
+        }
       });
     }
   }
@@ -131,22 +147,26 @@ class _ListPageState extends State<ListPage> {
                         itemCount: stockName == null ? 0 : stockName?.length,
                         itemBuilder: (BuildContext context, int index) {
                           var logoDatas = logos![index];
-                          var stocksplit1 = stockName?[index]
-                              .toString()
-                              .replaceAll('{title:', '');
-                          var stocksplit2 = stocksplit1!
-                              .replaceAll(', attributes:  null}}', '');
-                          var rateSplit1 = stockRateScrap?[index]
-                              .toString()
-                              .replaceAll('{title: ', '');
-                          var ratePriceSplit1 = stockAgoRateScrap?[index]
-                              .toString()
-                              .replaceAll('{title: ', '');
-                          var stockRatePrice = ratePriceSplit1!.replaceAll(
-                              ', attributes: {tah p11 red01: null}}', '');
-                          var stockRate = rateSplit1!.replaceAll(
-                              ', attributes: {tah p11 red01: null}}', '');
-                          var stockTitle = cp949.decodeString(stocksplit2);
+                          // var stocksplit1 = stockName?[index]
+                          //     .toString()
+                          //     .replaceAll('{title:', '');
+                          // var stocksplit2 = stocksplit1!
+                          //     .replaceAll(', attributes:  null}}', '');
+                          // var rateSplit1 = stockRateScrap?[index]
+                          //     .toString()
+                          //     .replaceAll('{title: ', '');
+                          // var ratePriceSplit1 = stockAgoRateScrap?[index]
+                          //     .toString()
+                          //     .replaceAll('{title: ', '');
+                          // var stockRatePrice = ratePriceSplit1!.replaceAll(
+                          //     ', attributes: {tah p11 red01: null}}', '');
+                          // var stockRate = rateSplit1!.replaceAll(
+                          //     ', attributes: {tah p11 red01: null}}', '');
+                          var stockRate = stockRateScrap[index];
+                          var stockRatePrice = stockAgoRateScrap[index];
+                          var stockTitle =
+                              cp949.decodeString(stockName![index]);
+                          var rateColor = stockRateScrap[index];
                           if (stockTitle != ' ') {
                             return SizedBox(
                               height: 150,
@@ -220,62 +240,101 @@ class _ListPageState extends State<ListPage> {
                                                       ),
                                                       child: SizedBox(
                                                         height: 150,
-                                                        child: Card(
-                                                          shadowColor:
-                                                              Colors.black,
-                                                          elevation: 0,
-                                                          color:
-                                                              Palette.bgColor,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
-                                                            children: [
-                                                              IconButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    setState(
+                                                        child: GestureDetector(
+                                                          // onTap: () {
+                                                          //   Navigator.push(
+                                                          //       context,
+                                                          //       MaterialPageRoute(
+                                                          //           builder: (context) => ChartPage(
+                                                          //               title:
+                                                          //                   'ComparePage',
+                                                          //               items:
+                                                          //                   stockTitle,
+                                                          //               logos:
+                                                          //                   logoDatas,
+                                                          //               rates:
+                                                          //                   stockRate,
+                                                          //               prices:
+                                                          //                   stockRatePrice)));
+                                                          // },
+                                                          child: Card(
+                                                            shadowColor:
+                                                                Colors.black,
+                                                            elevation: 0,
+                                                            color:
+                                                                Palette.bgColor,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              children: [
+                                                                IconButton(
+                                                                    onPressed:
                                                                         () {
-                                                                      favoriteList
-                                                                          .remove(
-                                                                              favoriteList[i]);
-                                                                      i++;
-                                                                    });
-                                                                  },
-                                                                  icon: Icon(
-                                                                      Icons
-                                                                          .favorite,
-                                                                      size: 18,
+                                                                      setState(
+                                                                          () {
+                                                                        favoriteList
+                                                                            .remove(favoriteList[i]);
+                                                                        i++;
+                                                                      });
+                                                                    },
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .favorite,
+                                                                        size:
+                                                                            18,
+                                                                        color: Palette
+                                                                            .outlineColor)),
+                                                                Container(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    border:
+                                                                        Border
+                                                                            .all(
+                                                                      width: 1,
                                                                       color: Palette
-                                                                          .outlineColor)),
-                                                              Container(
-                                                                width: 50,
-                                                                height: 50,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border
-                                                                      .all(
-                                                                    width: 1,
-                                                                    color: Palette
-                                                                        .outlineColor,
+                                                                          .outlineColor,
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              Text(stockTitle),
-                                                              Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceAround,
-                                                                children: [
-                                                                  Text(
-                                                                      stockRatePrice),
-                                                                  Text(
-                                                                      stockRate)
-                                                                ],
-                                                              ),
-                                                            ],
+                                                                Text(
+                                                                    stockTitle),
+                                                                Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          stockAgoRateScrap[
+                                                                              index],
+                                                                          style:
+                                                                              TextStyle(color: rateColor.indexOf('-') > 0 ? Palette.moneyColor : Palette.moneyOffColor),
+                                                                        ),
+                                                                        Icon(
+                                                                            rateColor.indexOf('-') > 0
+                                                                                ? (Icons.arrow_drop_down_outlined)
+                                                                                : Icons.arrow_drop_up_outlined,
+                                                                            color: rateColor.indexOf('-') > 0 ? Palette.moneyColor : Palette.moneyOffColor),
+                                                                      ],
+                                                                    ),
+                                                                    Text(
+                                                                      stockRateScrap[
+                                                                          index],
+                                                                      style: TextStyle(
+                                                                          color: rateColor.indexOf('-') > 0
+                                                                              ? Palette.moneyColor
+                                                                              : Palette.moneyOffColor),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -305,10 +364,53 @@ class _ListPageState extends State<ListPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             children: [
-                                              Text(stockAgoRateScrap[index]),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    stockAgoRateScrap[index],
+                                                    style: TextStyle(
+                                                        color: rateColor
+                                                                    .indexOf(
+                                                                        '-') >
+                                                                0
+                                                            ? Palette.moneyColor
+                                                            : Palette
+                                                                .moneyOffColor),
+                                                  ),
+                                                  Icon(
+                                                      rateColor.indexOf('-') > 0
+                                                          ? (Icons
+                                                              .arrow_drop_down_outlined)
+                                                          : Icons
+                                                              .arrow_drop_up_outlined,
+                                                      color: rateColor.indexOf(
+                                                                  '-') >
+                                                              0
+                                                          ? Palette.moneyColor
+                                                          : Palette
+                                                              .moneyOffColor),
+                                                ],
+                                              ),
                                               Text(
                                                 stockRateScrap[index],
-                                              )
+                                                style: TextStyle(
+                                                    color:
+                                                        rateColor.indexOf('-') >
+                                                                0
+                                                            ? Palette.moneyColor
+                                                            : Palette
+                                                                .moneyOffColor),
+                                              ),
+                                              // Text(
+                                              //   rateColor,
+                                              //   style: TextStyle(
+                                              //       color: rateColor
+                                              //                   .indexOf('+') >=
+                                              //               0
+                                              //           ? Palette.moneyColor
+                                              //           : Palette
+                                              //               .moneyOffColor),
+                                              // )
                                             ],
                                           ),
                                         ],
