@@ -216,6 +216,7 @@ class _ListPageState extends State<ListPage> {
                                                 //즐겨찾기 추가
                                                 setState(() {
                                                   var i = 0;
+
                                                   favoriteList.add(Padding(
                                                     padding:
                                                         const EdgeInsets.all(
@@ -273,6 +274,8 @@ class _ListPageState extends State<ListPage> {
                                                                         () {
                                                                       setState(
                                                                           () {
+                                                                        // var nameIndex =
+                                                                        //     stockName!.indexOf(stockName![index]);
                                                                         favoriteList
                                                                             .remove(favoriteList[i]);
                                                                         i++;
@@ -447,7 +450,8 @@ class _ListPageState extends State<ListPage> {
                     padding: EdgeInsets.zero,
                     itemCount: favoriteList == null ? 0 : favoriteList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var i = 0;
+                      // var i = stockName!.indexOf(
+                      //     cp949.encodeToString(favoriteList[index].toString()));
                       // if (favoriteList[index] != null) {
                       //   return favoriteList[index];
                       // } else {
@@ -458,7 +462,21 @@ class _ListPageState extends State<ListPage> {
                       //     ),
                       //   );
                       // }
-                      return favoriteList[index];
+                      return GestureDetector(
+                        child: favoriteList[index],
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChartPage(
+                                      title: 'ComparePage',
+                                      items:
+                                          cp949.decodeString(stockName![index]),
+                                      logos: logos[index],
+                                      rates: stockRateScrap[index],
+                                      prices: stockAgoRateScrap[index])));
+                        },
+                      );
                     }),
               ),
             )
