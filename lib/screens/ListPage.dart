@@ -277,7 +277,7 @@ class _ListPageState extends State<ListPage> {
                                                                         // var nameIndex =
                                                                         //     stockName!.indexOf(stockName![index]);
                                                                         favoriteList
-                                                                            .remove(favoriteList[i]);
+                                                                            .remove(favoriteList[index]);
                                                                         i++;
                                                                       });
                                                                     },
@@ -482,14 +482,14 @@ class _ListPageState extends State<ListPage> {
             )
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => stockList()));
-          },
-          backgroundColor: Palette.outlineColor,
-          child: Icon(Icons.outbond),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.push(
+        //         context, MaterialPageRoute(builder: (context) => stockList()));
+        //   },
+        //   backgroundColor: Palette.outlineColor,
+        //   child: Icon(Icons.outbond),
+        // ),
       ),
     );
   }

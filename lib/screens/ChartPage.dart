@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_flutter_app/screens/ListPage.dart';
 import 'package:stock_flutter_app/screens/loginPage.dart';
 import 'package:stock_flutter_app/screens/newsPage.dart';
 import '../asset/palette.dart';
@@ -108,12 +109,30 @@ class _ChartPage extends State<ChartPage> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          widget.prices,
-                          style: TextStyle(
-                              color: widget.rates.indexOf('-') > 0
-                                  ? Palette.moneyColor
-                                  : Palette.moneyOffColor),
+                        // Text(
+                        //   widget.prices,
+                        //   style: TextStyle(
+                        //       color: widget.rates.indexOf('-') > 0
+                        //           ? Palette.moneyColor
+                        //           : Palette.moneyOffColor),
+                        // ),
+                        Row(
+                          children: [
+                            Text(
+                              widget.prices,
+                              style: TextStyle(
+                                  color: widget.rates.indexOf('-') > 0
+                                      ? Palette.moneyColor
+                                      : Palette.moneyOffColor),
+                            ),
+                            // Icon(
+                            //     rates.indexOf('-') > 0
+                            //         ? (Icons.arrow_drop_down_outlined)
+                            //         : Icons.arrow_drop_up_outlined,
+                            //     color: rates.indexOf('-') > 0
+                            //         ? Palette.moneyColor
+                            //         : Palette.moneyOffColor),
+                          ],
                         ),
                         Text(
                           widget.rates,

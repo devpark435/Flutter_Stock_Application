@@ -40,17 +40,13 @@ class _stockListState extends State<stockList> {
           'div.box_type_l > table.type_2 > tbody > tr > td > a',
         );
         stockDataScrap = webScraper.getElementTitle(
-          //등락률 scrap
+          //등락률, 전일가격scrap
           //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
           //
           'div.box_type_l > table.type_2 > tbody > tr > td >span.tah.p11',
         );
-        // stockAgoRateScrap = webScraper.getElementTitle(
-        //   //전일대비 scrap
-        //   //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(4) > span")
-        //   'div.box_type_l > table.type_2 > tbody > tr > td > span.tah.p11',
-        // );
-        for (var i = 0; i < stockDataScrap.length; i++) {
+        
+        for (var i = 0; i < stockDataScrap.length; i++) {//등락률 전일가격 나누기
           if (i % 2 == 0) {
             stockAgoRateScrap.add(stockDataScrap[i]);
           } else {
