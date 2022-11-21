@@ -58,7 +58,10 @@ class _MarketPageState extends State<MarketPage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   final List<Widget> _widgetOptions = <Widget>[
-    ListPage(title: "title"),
+    ListPage(
+      title: "title",
+      dayPriceList: [],
+    ),
     SearchPage(title: "title"),
     LoginPage(title: "title")
   ];

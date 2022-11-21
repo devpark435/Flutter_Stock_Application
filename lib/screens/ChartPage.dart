@@ -20,13 +20,13 @@ class ChartPage extends StatefulWidget {
   final String items;
   final Widget logos;
   final String rates;
-  final String prices;
+  final String prices; //현재가 받아온 변수
   @override
   State<ChartPage> createState() => _ChartPage();
 }
 
 class _ChartPage extends State<ChartPage> {
-  String Buying = '';
+  int Buying = 0;
   String selling = ' ';
   @override
   Widget build(BuildContext context) {
@@ -249,6 +249,11 @@ class _ChartPage extends State<ChartPage> {
                                       return AlertDialog(
                                         alignment: Alignment.center,
                                         title: Text("매수"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                              onPressed: () {}, //매도 확인 버튼 이벤트
+                                              child: Text('매도 확인'))
+                                        ],
                                         backgroundColor: Palette.bgColor,
                                         content: SingleChildScrollView(
                                           child: Column(
@@ -261,8 +266,8 @@ class _ChartPage extends State<ChartPage> {
                                                       .unfocus();
                                                 },
                                                 onChanged: (text) {
-                                                  setState(() {
-                                                    Buying = text;
+                                                  setState(() async {
+                                                    Buying = int.parse(text);
                                                   });
                                                 },
                                                 obscureText: false,
@@ -273,7 +278,14 @@ class _ChartPage extends State<ChartPage> {
                                                 keyboardType:
                                                     TextInputType.number,
                                               ),
-                                              Text(Buying + "주를 매수합니다.")
+                                              Column(
+                                                children: [
+                                                  Text('${Buying}' +
+                                                      "주를 매수합니다."),
+                                                  Text(
+                                                      '매수 금액은 ${Buying * int.parse(widget.prices.replaceAll(',', ''))}입니다.'),
+                                                ],
+                                              )
                                             ],
                                           ),
                                         ),
@@ -302,6 +314,11 @@ class _ChartPage extends State<ChartPage> {
                                         alignment: Alignment.center,
                                         title: Text("매도"),
                                         backgroundColor: Palette.bgColor,
+                                        actions: <Widget>[
+                                          TextButton(
+                                              onPressed: () {},
+                                              child: Text('매도 확인'))
+                                        ],
                                         content: SingleChildScrollView(
                                           child: Column(
                                             mainAxisAlignment:
@@ -313,7 +330,7 @@ class _ChartPage extends State<ChartPage> {
                                                       .unfocus();
                                                 },
                                                 onChanged: (text) {
-                                                  setState(() {
+                                                  setState(() async {
                                                     selling = text;
                                                   });
                                                 },

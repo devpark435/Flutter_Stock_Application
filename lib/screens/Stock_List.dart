@@ -22,11 +22,16 @@ class stockList extends StatefulWidget {
 class _stockListState extends State<stockList> {
   // initialize WebScraper by passing base url of website
   final webScraper = WebScraper('https://finance.naver.com/');
+  final codeScraper = WebScraper('https://vip.mk.co.kr/');
   // Response of getElement is always List<Map<String, dynamic>>
   List<String>? stockName;
   late List<String> stockRateScrap = []; //등락률
   late List<String> stockAgoRateScrap = []; //등락금액
   late List<String> stockDataScrap;
+  late List<String> dayPrice;
+  late List<String> dayPriceList = [];
+  // late List<String> stockCode;
+  // late List<String> stockCode2;
 
   void fetchProducts() async {
     // Loads web page and downloads into local state of library
@@ -39,29 +44,54 @@ class _stockListState extends State<stockList> {
           // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(2) > a")
           'div.box_type_l > table.type_2 > tbody > tr > td > a',
         );
+        dayPrice = webScraper.getElementTitle(
+          //주식명 scrap
+          // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(3)")
+          'div.box_type_l > table.type_2 > tbody > tr > td',
+        );
         stockDataScrap = webScraper.getElementTitle(
           //등락률, 전일가격scrap
           //document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(5) > span")
           //
           'div.box_type_l > table.type_2 > tbody > tr > td >span.tah.p11',
         );
-        
-        for (var i = 0; i < stockDataScrap.length; i++) {//등락률 전일가격 나누기
+        // stockCode2 = webScraper.getElement(
+        //     //주식명 scrap
+        //     // document.querySelector("#contentarea > div.box_type_l > table.type_2 > tbody > tr:nth-child(2) > td:nth-child(2) > a")
+        //     'div.box_type_l > table.type_2 > tbody > tr > td > a',
+        //     ['href']).cast<String>();
+
+        for (var i = 0; i < stockDataScrap.length; i++) {
+          //등락률 전일가격 나누기
           if (i % 2 == 0) {
             stockAgoRateScrap.add(stockDataScrap[i]);
           } else {
             stockRateScrap.add(stockDataScrap[i]);
           }
         }
+        for (var i = 0; i < dayPrice.length; i++) {
+          if (i == 2 || (i - 2) % 12 == 0) {
+            dayPriceList.add(dayPrice[i]);
+          }
+        }
+        //2 14 26
       });
     }
   }
+
+  // void fetchCode() async {
+  //   if (await codeScraper.loadWebPage('newSt/rate/best.php?gubn=kospi')) {
+  //     stockCode = codeScraper.getElementTitle(
+  //         'table.table_4 > tbody > tr > td.center.t_11_black'); //document.querySelector("body > div:nth-child(12) > div > table > tbody > tr > td:nth-child(1) > table.table_4 > tbody > tr:nth-child(2) > td.center.t_11_black")
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
     // Requesting to fetch before UI drawing starts
     fetchProducts();
+    // fetchCode();
   }
 
   @override
@@ -159,6 +189,14 @@ class _stockListState extends State<stockList> {
                                       ],
                                     ),
                                   ),
+                                  Container(
+                                    // child: Text('${stockCode[index]}'),
+                                    child: Text('${dayPriceList[index]}'),
+                                  ),
+                                  // Container(
+                                  //   // child: Text('${stockCode[index]}'),
+                                  //   child: Text('${stockCode2[index]}'),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -168,8 +206,6 @@ class _stockListState extends State<stockList> {
                       // } else {
                       //   return SizedBox.shrink();
                       // }
-
-                      ;
                     },
                   ),
           ),

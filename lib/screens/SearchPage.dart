@@ -142,7 +142,7 @@ class _SearchPage extends State<SearchPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => stockLsit()));
+            //     context, MaterialPageRoute(builder: (context) => stockList()));
             authService.signOut();
           },
           backgroundColor: Palette.outlineColor,
