@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_flutter_app/screens/ListPage.dart';
 import 'package:stock_flutter_app/screens/loginPage.dart';
 import 'package:stock_flutter_app/screens/newsPage.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import '../firebase/auth_service.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({
@@ -17,13 +20,13 @@ class ChartPage extends StatefulWidget {
   final String items;
   final Widget logos;
   final String rates;
-  final String prices;
+  final String prices; //현재가 받아온 변수
   @override
   State<ChartPage> createState() => _ChartPage();
 }
 
 class _ChartPage extends State<ChartPage> {
-  String Buying = '';
+  int Buying = 0;
   String selling = ' ';
   @override
   Widget build(BuildContext context) {
@@ -33,164 +36,167 @@ class _ChartPage extends State<ChartPage> {
       _SalesData('1', 5300),
       _SalesData('0', 5400)
     ];
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Palette.bgColor,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Palette.containerShadow),
-          backgroundColor: Palette.containerColor,
-          centerTitle: false,
-          elevation: 0,
-          actions: [
-            new IconButton(
-              icon: new Icon(Icons.newspaper),
-              tooltip: 'NewsScrap',
-              onPressed: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NewsPage(
-                              title: 'title',
-                              itemName: widget.items,
-                            )))
-              },
-            )
-          ],
-          title: Text(widget.items),
-        ),
-        body: SafeArea(
-          child: Column(children: [
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Container(
-            //         // ItmeNameContainer
-            //         margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            //         width: MediaQuery.of(context).size.width * 0.9,
-            //         height: MediaQuery.of(context).size.height * 0.1,
-            //         decoration: BoxDecoration(
-            //           color: Palette.bgColor,
-            //           boxShadow: [
-            //             BoxShadow(
-            //               blurRadius: 4,
-            //               color: Palette.containerColor,
-            //               offset: Offset(0, 5),
-            //             )
-            //           ],
-            //           borderRadius: BorderRadius.circular(15),
-            //         ))
-            //   ],
-            // ),
-            Container(
-              // ItmeNameContainer
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.1,
-              decoration: BoxDecoration(
-                color: Palette.bgColor,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 4,
-                    color: Palette.containerColor,
-                    offset: Offset(0, 5),
-                  )
-                ],
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(
-                                '/Users/ryeol/Desktop/logoKakao.png'))),
-                  ),
-                  Text(widget.items),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [Text(widget.prices), Text(widget.rates)],
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    //ChartContainer
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    decoration: BoxDecoration(
-                      color: Palette.bgColor,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Palette.containerColor,
-                          offset: Offset(0, 5),
+    return Consumer<AuthService>(builder: (context, authService, child) {
+      return Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Palette.bgColor,
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Palette.containerShadow),
+            backgroundColor: Palette.appbarColor,
+            centerTitle: false,
+            elevation: 0,
+            actions: [
+              new IconButton(
+                icon: new Icon(Icons.newspaper),
+                tooltip: 'NewsScrap',
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewsPage(
+                                title: 'title',
+                                itemName: widget.items,
+                              )))
+                },
+              )
+            ],
+            title: Text(widget.items),
+          ),
+          body: SingleChildScrollView(
+            child: Column(children: [
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //         // ItmeNameContainer
+              //         margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              //         width: MediaQuery.of(context).size.width * 0.9,
+              //         height: MediaQuery.of(context).size.height * 0.1,
+              //         decoration: BoxDecoration(
+              //           color: Palette.bgColor,
+              //           boxShadow: [
+              //             BoxShadow(
+              //               blurRadius: 4,
+              //               color: Palette.containerColor,
+              //               offset: Offset(0, 5),
+              //             )
+              //           ],
+              //           borderRadius: BorderRadius.circular(15),
+              //         ))
+              //   ],
+              // ),
+              Container(
+                // ItmeNameContainer
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Palette.bgColor,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: Palette.outlineColor,
+                      offset: Offset(0, 5),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    widget.logos,
+                    Text(widget.items),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        // Text(
+                        //   widget.prices,
+                        //   style: TextStyle(
+                        //       color: widget.rates.indexOf('-') > 0
+                        //           ? Palette.moneyColor
+                        //           : Palette.moneyOffColor),
+                        // ),
+                        Row(
+                          children: [
+                            Text(
+                              widget.prices,
+                              style: TextStyle(
+                                  color: widget.rates.indexOf('-') > 0
+                                      ? Palette.moneyColor
+                                      : Palette.moneyOffColor),
+                            ),
+                            // Icon(
+                            //     rates.indexOf('-') > 0
+                            //         ? (Icons.arrow_drop_down_outlined)
+                            //         : Icons.arrow_drop_up_outlined,
+                            //     color: rates.indexOf('-') > 0
+                            //         ? Palette.moneyColor
+                            //         : Palette.moneyOffColor),
+                          ],
+                        ),
+                        Text(
+                          widget.rates,
+                          style: TextStyle(
+                              color: widget.rates.indexOf('-') > 0
+                                  ? Palette.moneyColor
+                                  : Palette.moneyOffColor),
                         )
                       ],
-                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Column(children: [
-                      Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
-                      Container(
-                        child: SfCartesianChart(
-                            primaryXAxis: CategoryAxis(),
-                            // Chart title
-                            title: ChartTitle(text: 'STOCK CHART'),
-                            // Enable legend
-                            legend: Legend(isVisible: false),
-                            // Enable tooltip
-                            tooltipBehavior: TooltipBehavior(enable: true),
-                            series: <ChartSeries<_SalesData, String>>[
-                              LineSeries<_SalesData, String>(
-                                  dataSource: data,
-                                  xValueMapper: (_SalesData sales, _) =>
-                                      sales.year,
-                                  yValueMapper: (_SalesData sales, _) =>
-                                      sales.sales,
-                                  name: 'Sales',
-                                  // Enable data label
-                                  dataLabelSettings:
-                                      DataLabelSettings(isVisible: true)),
-                            ]),
-                      )
-                    ]))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  decoration: BoxDecoration(
-                    color: Palette.bgColor,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 4,
-                        color: Palette.containerColor,
-                        offset: Offset(0, 5),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      //ChartContainer
+                      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      decoration: BoxDecoration(
+                        color: Palette.bgColor,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Palette.outlineColor,
+                            offset: Offset(0, 5),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(children: [
+                        Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
+                        Container(
+                          child: SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              // Chart title
+                              title: ChartTitle(text: 'STOCK CHART'),
+                              // Enable legend
+                              legend: Legend(isVisible: false),
+                              // Enable tooltip
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              series: <ChartSeries<_SalesData, String>>[
+                                LineSeries<_SalesData, String>(
+                                    dataSource: data,
+                                    xValueMapper: (_SalesData sales, _) =>
+                                        sales.year,
+                                    yValueMapper: (_SalesData sales, _) =>
+                                        sales.sales,
+                                    name: 'Sales',
+                                    // Enable data label
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true)),
+                              ]),
+                        )
+                      ]))
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
                     margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.1,
@@ -199,104 +205,166 @@ class _ChartPage extends State<ChartPage> {
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 4,
-                          color: Palette.containerColor,
+                          color: Palette.outlineColor,
                           offset: Offset(0, 5),
                         )
                       ],
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("InvestmentGame"),
-                        IconButton(
-                          icon: const Icon(Icons.attach_money),
-                          color: Palette.moneyColor,
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    alignment: Alignment.center,
-                                    title: Text("매수"),
-                                    backgroundColor: Palette.containerColor,
-                                    content: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          TextField(
-                                            onTap: () {
-                                              FocusScope.of(context).unfocus();
-                                            },
-                                            onChanged: (text) {
-                                              setState(() {
-                                                Buying = text;
-                                              });
-                                            },
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              labelText: '몇 주를 매수하시겠습니까?',
-                                            ),
-                                            keyboardType: TextInputType.number,
-                                          ),
-                                          Text(Buying + "주를 매수합니다.")
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      decoration: BoxDecoration(
+                        color: Palette.bgColor,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Palette.outlineColor,
+                            offset: Offset(0, 5),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("InvestmentGame"),
+                          IconButton(
+                            icon: const Icon(Icons.attach_money),
+                            color: Palette.moneyColor,
+                            onPressed: () {
+                              if (authService.currentUser() != null) {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        alignment: Alignment.center,
+                                        title: Text("매수"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                              onPressed: () {}, //매도 확인 버튼 이벤트
+                                              child: Text('매도 확인'))
                                         ],
-                                      ),
-                                    ),
-                                  );
-                                });
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.money_off_csred),
-                          color: Palette.moneyOffColor,
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    alignment: Alignment.center,
-                                    title: Text("매도"),
-                                    backgroundColor: Palette.containerColor,
-                                    content: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          TextField(
-                                            onTap: () {
-                                              FocusScope.of(context).unfocus();
-                                            },
-                                            onChanged: (text) {
-                                              setState(() {
-                                                selling = text;
-                                              });
-                                            },
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              labelText: '몇 주를 매도하시겠습니까?',
-                                            ),
-                                            keyboardType: TextInputType.number,
+                                        backgroundColor: Palette.bgColor,
+                                        content: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextField(
+                                                onTap: () {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                },
+                                                onChanged: (text) {
+                                                  setState(() async {
+                                                    Buying = int.parse(text);
+                                                  });
+                                                },
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  labelText: '몇 주를 매수하시겠습니까?',
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text('${Buying}' +
+                                                      "주를 매수합니다."),
+                                                  Text(
+                                                      '매수 금액은 ${Buying * int.parse(widget.prices.replaceAll(',', ''))}입니다.'),
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                          Text(selling + "주를 매도합니다."),
+                                        ),
+                                      );
+                                    });
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage(
+                                              title: '',
+                                            )));
+                              }
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.money_off_csred),
+                            color: Palette.moneyOffColor,
+                            onPressed: () {
+                              if (authService.currentUser() != null) {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        alignment: Alignment.center,
+                                        title: Text("매도"),
+                                        backgroundColor: Palette.bgColor,
+                                        actions: <Widget>[
+                                          TextButton(
+                                              onPressed: () {},
+                                              child: Text('매도 확인'))
                                         ],
-                                      ),
-                                    ),
-                                  );
-                                });
-                          },
-                        )
-                      ],
-                    ))
-              ],
-            ),
-          ]),
-        ));
+                                        content: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextField(
+                                                onTap: () {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                },
+                                                onChanged: (text) {
+                                                  setState(() async {
+                                                    selling = text;
+                                                  });
+                                                },
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  labelText: '몇 주를 매도하시겠습니까?',
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                              ),
+                                              Text(selling + "주를 매도합니다."),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage(
+                                              title: '',
+                                            )));
+                              }
+                            },
+                          )
+                        ],
+                      ))
+                ],
+              ),
+            ]),
+          ));
+    });
   }
 }
 

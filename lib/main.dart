@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:stock_flutter_app/asset/palette.dart';
 import 'package:stock_flutter_app/screens/ChartPage.dart';
 import '/screens/ListPage.dart';
 import './screens/SearchPage.dart';
 import 'screens/loginPage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import './firebase/auth_service.dart';
+import 'package:web_scraper/web_scraper.dart';
 
-void main() {
-  runApp(const MyApp());
+// void main() {
+
+//   runApp(const MyApp());
+// }
+Future<void> main() async {
+  // WidgetsFlutterBinding.ensureInitialized(); // main 함수에서 async 사용하기 위함
+  // await Firebase.initializeApp(); // firebase 앱 시작
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +35,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
       home: const MarketPage(),
@@ -36,7 +58,10 @@ class _MarketPageState extends State<MarketPage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   final List<Widget> _widgetOptions = <Widget>[
-    ListPage(title: "title"),
+    ListPage(
+      title: "title",
+      dayPriceList: [],
+    ),
     SearchPage(title: "title"),
     LoginPage(title: "title")
   ];
@@ -70,9 +95,22 @@ class _MarketPageState extends State<MarketPage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightGreen,
+        selectedItemColor: Palette.outlineColor,
         onTap: _onItemTapped,
       ),
+      // bottomNavigationBar: BottomAppBar(
+      //   color: Palette.containerColor,
+      //   child: IconTheme(
+      //     data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+      //     child: Row(
+      //       children: [
+      //         IconButton(onPressed: () => {}, icon: Icon(Icons.bar_chart)),
+      //         IconButton(onPressed: () => {}, icon: Icon(Icons.search)),
+      //         IconButton(onPressed: () => {}, icon: Icon(Icons.people)),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 
