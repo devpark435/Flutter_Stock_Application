@@ -10,6 +10,8 @@ import '../screens/ChartPage.dart';
 import 'package:cp949/cp949.dart' as cp949;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'ChartDataTest.dart';
+
 var items = List<String>.generate(50, (i) => "카카오 $i");
 var logos = List<Widget>.generate(
   50,
@@ -463,14 +465,18 @@ class _ListPageState extends State<ListPage> {
             )
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context, MaterialPageRoute(builder: (context) => stockList()));
-        //   },
-        //   backgroundColor: Palette.outlineColor,
-        //   child: Icon(Icons.outbond),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChartDataTest(
+                          chartcode: 005930,
+                        )));
+          },
+          backgroundColor: Palette.outlineColor,
+          child: Icon(Icons.outbond),
+        ),
       ),
     );
   }
