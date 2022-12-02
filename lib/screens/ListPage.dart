@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/screens/Stock_List.dart';
 import 'package:web_scraper/web_scraper.dart';
@@ -106,12 +108,12 @@ class _ListPageState extends State<ListPage> {
     fetchProducts();
   }
 
-  // @override
-  // void didUpdateWidget(Widget oldWidget) {
-  //   if (oldWidget. != widget.dayPriceList) {
-  //     initState();
-  //   }
-  // }
+  @override
+  void didUpdateWidget(oldWidget) {
+    if (oldWidget.dayPriceList != widget.dayPriceList) {
+      fetchProducts();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

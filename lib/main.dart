@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import './firebase/auth_service.dart';
 import 'package:web_scraper/web_scraper.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 // void main() {
 
@@ -23,7 +24,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
