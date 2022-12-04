@@ -19,6 +19,7 @@ Future<void> main() async {
   // await Firebase.initializeApp(); // firebase 앱 시작
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(
     MultiProvider(
       providers: [
@@ -55,6 +56,7 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage> {
   int _selectedIndex = 1;
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -99,19 +101,6 @@ class _MarketPageState extends State<MarketPage> {
         selectedItemColor: Palette.outlineColor,
         onTap: _onItemTapped,
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   color: Palette.containerColor,
-      //   child: IconTheme(
-      //     data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-      //     child: Row(
-      //       children: [
-      //         IconButton(onPressed: () => {}, icon: Icon(Icons.bar_chart)),
-      //         IconButton(onPressed: () => {}, icon: Icon(Icons.search)),
-      //         IconButton(onPressed: () => {}, icon: Icon(Icons.people)),
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 
