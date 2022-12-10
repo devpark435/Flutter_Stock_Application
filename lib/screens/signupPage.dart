@@ -9,12 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/widgets/customWidget.dart';
 import '../asset/palette.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../firebase/Firestore.dart';
+import '../firebase/FirestoreService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key, required this.title});
   final String title;
+
   @override
   State<SignupPage> createState() => _SignupPage();
 }
@@ -23,15 +24,15 @@ class _SignupPage extends State<SignupPage> {
   int searchText = 0;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
   // final userCollection = FirebaseFirestore.instance.collection('user');
   // final int money = 10000000;
-
+  FirestoreService fs = new FirestoreService();
   String signID = ''; //sign up id 변수
   String signPW = ''; //sign up password 변수
 
   String checkPW = ''; //sign up check password 변수
   String signEM = ''; //sign up email 변수
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthService>(
@@ -200,6 +201,7 @@ class _SignupPage extends State<SignupPage> {
                                   email: emailController.text,
                                   password: passwordController.text,
                                   onSuccess: () {
+                                    fs.create(emailController.text);
                                     // userCollection
                                     //     .add({'uid': signID, 'money': money});
                                     Navigator.pushReplacement(
@@ -224,6 +226,7 @@ class _SignupPage extends State<SignupPage> {
                                             ),
                                           );
                                         }));
+
                                     // 회원가입 성공
                                     /* ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
@@ -284,5 +287,9 @@ class _SignupPage extends State<SignupPage> {
         );
       },
     );
+  }
+
+  String getemail() {
+    return emailController.text;
   }
 }

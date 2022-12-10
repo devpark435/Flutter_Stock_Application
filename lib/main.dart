@@ -3,6 +3,7 @@ import 'package:stock_flutter_app/asset/palette.dart';
 import 'package:stock_flutter_app/screens/ChartPage.dart';
 import '/screens/ListPage.dart';
 import './screens/SearchPage.dart';
+import 'firebase/FirestoreService.dart';
 import 'screens/loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => FirestoreService()),
       ],
       child: MyApp(),
     ),
@@ -78,30 +80,33 @@ class _MarketPageState extends State<MarketPage> {
   // 메인 위젯
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Chart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'MyPage',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Palette.outlineColor,
-        onTap: _onItemTapped,
-      ),
-    );
+    return Consumer<FirestoreService>(
+        builder: (context, FirestoreService, child) {
+      return Scaffold(
+        body: SafeArea(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: 'Chart',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'MyPage',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Palette.outlineColor,
+          onTap: _onItemTapped,
+        ),
+      );
+    });
   }
 
   @override

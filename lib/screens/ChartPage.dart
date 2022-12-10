@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_flutter_app/firebase/FirestoreService.dart';
 import 'package:stock_flutter_app/screens/ListPage.dart';
 import 'package:stock_flutter_app/screens/loginPage.dart';
 import 'package:stock_flutter_app/screens/newsPage.dart';
+import 'package:stock_flutter_app/screens/SignupPage.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../firebase/auth_service.dart';
+import 'SignupPage.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({
@@ -26,8 +31,34 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPage extends State<ChartPage> {
+  FirestoreService fs = new FirestoreService();
+  final auth = FirebaseAuth.instance;
   int Buying = 0;
   String selling = ' ';
+  int userMoney = 0;
+
+  get index => null;
+
+  Future<void> buyItem(int buyPrice, String uid) async {
+    final fs = FirestoreService();
+    final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
+    final documents = snapshot.docs;
+    int index = 0;
+    final doc = documents[index];
+    int currentMoney = doc.get('money');
+    fs.userCollection.doc(uid).update({'money': currentMoney - buyPrice});
+  }
+
+  Future<void> sellItem(int sellPrice, String uid) async {
+    final fs = FirestoreService();
+    final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
+    final documents = snapshot.docs;
+    int index = 0;
+    final doc = documents[index];
+    int currentMoney = doc.get('money');
+    fs.userCollection.doc(uid).update({'money': currentMoney + sellPrice});
+  }
+
   @override
   Widget build(BuildContext context) {
     List<_SalesData> data = [
@@ -64,27 +95,6 @@ class _ChartPage extends State<ChartPage> {
           ),
           body: SingleChildScrollView(
             child: Column(children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Container(
-              //         // ItmeNameContainer
-              //         margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              //         width: MediaQuery.of(context).size.width * 0.9,
-              //         height: MediaQuery.of(context).size.height * 0.1,
-              //         decoration: BoxDecoration(
-              //           color: Palette.bgColor,
-              //           boxShadow: [
-              //             BoxShadow(
-              //               blurRadius: 4,
-              //               color: Palette.containerColor,
-              //               offset: Offset(0, 5),
-              //             )
-              //           ],
-              //           borderRadius: BorderRadius.circular(15),
-              //         ))
-              //   ],
-              // ),
               Container(
                 // ItmeNameContainer
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -109,13 +119,6 @@ class _ChartPage extends State<ChartPage> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // Text(
-                        //   widget.prices,
-                        //   style: TextStyle(
-                        //       color: widget.rates.indexOf('-') > 0
-                        //           ? Palette.moneyColor
-                        //           : Palette.moneyOffColor),
-                        // ),
                         Row(
                           children: [
                             Text(
@@ -125,13 +128,6 @@ class _ChartPage extends State<ChartPage> {
                                       ? Palette.moneyColor
                                       : Palette.moneyOffColor),
                             ),
-                            // Icon(
-                            //     rates.indexOf('-') > 0
-                            //         ? (Icons.arrow_drop_down_outlined)
-                            //         : Icons.arrow_drop_up_outlined,
-                            //     color: rates.indexOf('-') > 0
-                            //         ? Palette.moneyColor
-                            //         : Palette.moneyOffColor),
                           ],
                         ),
                         Text(
@@ -251,8 +247,27 @@ class _ChartPage extends State<ChartPage> {
                                         title: Text("매수"),
                                         actions: <Widget>[
                                           TextButton(
-                                              onPressed: () {}, //매도 확인 버튼 이벤트
-                                              child: Text('매도 확인'))
+                                              onPressed: () {
+                                                setState(
+                                                  () {
+                                                    int buyPrice = (Buying *
+                                                        int.parse(widget.prices
+                                                            .replaceAll(
+                                                                ',', '')));
+
+                                                    final currentUser =
+                                                        auth.currentUser;
+                                                    if (currentUser != null) {
+                                                      String uid = currentUser
+                                                          .email
+                                                          .toString();
+                                                      buyItem(buyPrice, uid);
+                                                    }
+                                                  },
+                                                );
+                                                Navigator.pop(context);
+                                              }, //매도 확인 버튼 이벤트
+                                              child: Text('매수 확인'))
                                         ],
                                         backgroundColor: Palette.bgColor,
                                         content: SingleChildScrollView(
@@ -266,7 +281,7 @@ class _ChartPage extends State<ChartPage> {
                                                       .unfocus();
                                                 },
                                                 onChanged: (text) {
-                                                  setState(() async {
+                                                  setState(() {
                                                     Buying = int.parse(text);
                                                   });
                                                 },
@@ -316,7 +331,28 @@ class _ChartPage extends State<ChartPage> {
                                         backgroundColor: Palette.bgColor,
                                         actions: <Widget>[
                                           TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Future.delayed(
+                                                    Duration(milliseconds: 500),
+                                                    () {
+                                                  int sellPrice =
+                                                      (int.parse(selling) *
+                                                          int.parse(widget
+                                                              .prices
+                                                              .replaceAll(
+                                                                  ',', '')));
+                                                  final currentUser =
+                                                      auth.currentUser;
+                                                  if (currentUser != null) {
+                                                    String uid = currentUser
+                                                        .email
+                                                        .toString();
+                                                    sellItem(sellPrice, uid);
+                                                  }
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                });
+                                              },
                                               child: Text('매도 확인'))
                                         ],
                                         content: SingleChildScrollView(
@@ -330,7 +366,7 @@ class _ChartPage extends State<ChartPage> {
                                                       .unfocus();
                                                 },
                                                 onChanged: (text) {
-                                                  setState(() async {
+                                                  setState(() {
                                                     selling = text;
                                                   });
                                                 },
