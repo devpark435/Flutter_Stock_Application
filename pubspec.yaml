@@ -49,6 +49,7 @@ dependencies:
   cloud_firestore: ^4.2.0
   intl: ^0.17.0 
   webview_flutter: ^3.0.4
+  firebase_database: ^10.0.7
 
 
 dev_dependencies:
