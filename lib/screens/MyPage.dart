@@ -15,6 +15,14 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: SafeArea(
+          child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [],
+        ),
+      )),
+    );
   }
 }
