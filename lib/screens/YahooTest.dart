@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as parser;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class YahooTest extends StatefulWidget {
   const YahooTest({super.key});
@@ -47,19 +48,9 @@ class _YahooTestState extends State<YahooTest> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: GestureDetector(
-        child: Center(
-          child: Container(
-            height: 100,
-            width: 100,
-            color: Colors.amber,
-          ),
-        ),
-        onTap: () async {
-          //http://10.0.2.2:5000/삼성전자
-          final url = Uri.parse("http://10.0.2.2:5000/005930");
-          launchUrl(url);
-        },
+      body: WebView(
+        initialUrl:
+            "https://ssl.pstatic.net/imgfinance/chart/item/candle/week/005930.png?",
       ),
     );
   }
