@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_flutter_app/screens/ListPage.dart';
@@ -6,8 +7,9 @@ import 'package:stock_flutter_app/screens/loginPage.dart';
 import 'package:stock_flutter_app/screens/newsPage.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../firebase/auth_service.dart';
 import '../firebase/FirestoreService.dart';
+import '../firebase/auth_service.dart';
+import 'SignupPage.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({
@@ -33,6 +35,10 @@ class _ChartPage extends State<ChartPage> {
   int Buying = 0;
   int wallet = 0;
   String selling = ' ';
+  int userMoney = 0;
+
+  get index => null;
+
   Future<void> buyItem(int buyPrice, String uid) async {
     final fs = FirestoreService();
     final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
