@@ -49,7 +49,21 @@ class _ChartPage extends State<ChartPage> {
     int index = 0;
     final doc = documents[index];
     int currentMoney = doc.get('money');
-    fs.userCollection.doc(uid).update({'money': currentMoney - buyPrice});
+    int currentStockAmount = 0;
+    print("매수: ${widget.items}");
+    try {
+      int currentStockAmount = doc.get(widget.items);
+      fs.userCollection.doc(uid).update({
+        'money': currentMoney - buyPrice,
+        widget.items: currentStockAmount + Buying
+      });
+    } catch (e) {
+      print("에러: ${e}");
+      fs.userCollection.doc(uid).update({
+        'money': currentMoney - buyPrice,
+        widget.items: currentStockAmount + Buying
+      });
+    }
   }
 
   Future<void> sellItem(int sellPrice, String uid) async {
@@ -59,7 +73,21 @@ class _ChartPage extends State<ChartPage> {
     int index = 0;
     final doc = documents[index];
     int currentMoney = doc.get('money');
-    fs.userCollection.doc(uid).update({'money': currentMoney + sellPrice});
+    int currentStockAmount = 0;
+    print("매도: ${widget.items}");
+    try {
+      int currentStockAmount = doc.get(widget.items);
+      fs.userCollection.doc(uid).update({
+        'money': currentMoney + sellPrice,
+        widget.items: currentStockAmount - int.parse(selling)
+      });
+    } catch (e) {
+      print("에러: ${e}");
+      fs.userCollection.doc(uid).update({
+        'money': currentMoney + sellPrice,
+        widget.items: currentStockAmount - int.parse(selling)
+      });
+    }
   }
 
   @override
@@ -150,7 +178,6 @@ class _ChartPage extends State<ChartPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [chartArea(widget.items), chartArea(widget.items)],
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
@@ -212,7 +239,6 @@ class _ChartPage extends State<ChartPage> {
                                           //
                                           TextButton(
                                               onPressed: () {
-
                                                 setState(() {
                                                   int buyPrice = (Buying *
                                                       int.parse(widget.prices
