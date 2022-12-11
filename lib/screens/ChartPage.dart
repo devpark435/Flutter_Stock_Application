@@ -7,7 +7,6 @@ import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../firebase/auth_service.dart';
 
-
 class ChartPage extends StatefulWidget {
   const ChartPage({
     super.key,
@@ -256,13 +255,14 @@ class _ChartPage extends State<ChartPage> {
                                           TextButton(
                                               onPressed: () {
                                                 setState(() {
-                                                  wallet = Buying *
+                                                  int buyPrice = (Buying *
                                                       int.parse(widget.prices
-                                                          .replaceAll(',', ''));
+                                                          .replaceAll(
+                                                              ',', '')));
                                                 });
                                                 Navigator.pop(context);
                                               }, //매도 확인 버튼 이벤트
-                                              child: Text('매도 확인'))
+                                              child: Text('매수 확인'))
                                         ],
                                         backgroundColor: Palette.bgColor,
                                         content: SingleChildScrollView(

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'YahooTest.dart';
+
 import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/screens/Stock_List.dart';
-import 'package:stock_flutter_app/screens/YahooTest.dart';
+
 import 'package:web_scraper/web_scraper.dart';
 import '../../widgets/customWidget.dart';
 import 'package:flutter/material.dart';
@@ -465,14 +465,6 @@ class _ListPageState extends State<ListPage> {
               ),
             )
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => YahooTest()));
-          },
-          backgroundColor: Palette.outlineColor,
-          child: Icon(Icons.outbond),
         ),
       ),
     );
