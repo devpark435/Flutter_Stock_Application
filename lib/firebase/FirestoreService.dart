@@ -5,8 +5,12 @@ class FirestoreService extends ChangeNotifier {
   final userCollection = FirebaseFirestore.instance.collection('user');
   final logCollection = FirebaseFirestore.instance.collection('log');
 
-  Future<QuerySnapshot> read(String uid) async {
+  Future<QuerySnapshot> readUser(String uid) async {
     return userCollection.where('uid', isEqualTo: uid).get();
+  }
+
+  Future<QuerySnapshot> readLog(String uid) async {
+    return logCollection.where('uid', isEqualTo: uid).get();
   }
 
   void create(String uid) async {
