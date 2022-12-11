@@ -7,6 +7,7 @@ import 'package:stock_flutter_app/screens/ListPage.dart';
 import 'package:stock_flutter_app/screens/loginPage.dart';
 import 'package:stock_flutter_app/screens/newsPage.dart';
 import 'package:stock_flutter_app/screens/SignupPage.dart';
+import 'package:stock_flutter_app/widgets/Chart.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../firebase/FirestoreService.dart';
@@ -189,7 +190,25 @@ class _ChartPage extends State<ChartPage> {
                   ],
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: chartArea(widget.items),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Text('${widget.items}차트'),
+                    chartData(widget.items),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {},
+                        ),
+                        const Text('차트크게보기')
+                      ],
+                    )
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

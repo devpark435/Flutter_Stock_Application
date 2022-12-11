@@ -4,7 +4,7 @@ import '../asset/palette.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 //chartArea
-Widget chartArea(chartName) {
+Widget chartData(chartName) {
   String url = "";
   switch (chartName) {
     case '삼성전자':
