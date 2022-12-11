@@ -8,6 +8,8 @@ import 'package:stock_flutter_app/screens/loginPage.dart';
 import 'package:stock_flutter_app/screens/newsPage.dart';
 import 'package:stock_flutter_app/screens/SignupPage.dart';
 import 'package:stock_flutter_app/widgets/Chart.dart';
+import 'package:stock_flutter_app/widgets/News.dart';
+import 'package:stock_flutter_app/widgets/StockTip.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../firebase/FirestoreService.dart';
@@ -108,21 +110,6 @@ class _ChartPage extends State<ChartPage> {
             backgroundColor: Palette.appbarColor,
             centerTitle: false,
             elevation: 0,
-            actions: [
-              new IconButton(
-                icon: new Icon(Icons.newspaper),
-                tooltip: 'NewsScrap',
-                onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NewsPage(
-                                title: 'title',
-                                itemName: widget.items,
-                              )))
-                },
-              )
-            ],
             title: Text(widget.items),
           ),
           body: SingleChildScrollView(
@@ -190,46 +177,13 @@ class _ChartPage extends State<ChartPage> {
                   ],
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Text('${widget.items}차트'),
-                    chartData(widget.items),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () {},
-                        ),
-                        const Text('차트크게보기')
-                      ],
-                    )
-                  ],
-                ),
+                child: chartData(widget.items),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
                 children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    decoration: BoxDecoration(
-                      color: Palette.bgColor,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Palette.outlineColor,
-                          offset: Offset(0, 5),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  )
+                  newsArea(widget.items, context),
+                  stockTips(widget.items, context)
                 ],
               ),
               Row(

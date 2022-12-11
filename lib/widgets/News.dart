@@ -6,7 +6,7 @@ Widget newsArea(chartName, cnt) {
   return GestureDetector(
     child: Container(
         margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-        width: 150,
+        width: MediaQuery.of(cnt).size.width * 0.4,
         height: 150,
         decoration: BoxDecoration(
           color: Palette.bgColor,
@@ -26,7 +26,11 @@ Widget newsArea(chartName, cnt) {
               Icons.newspaper,
               size: 40,
             ),
-            Text('${chartName} 관련뉴스')
+            Container(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [Text('${chartName}'), Text('관련 뉴스')],
+                )),
           ],
         )),
     onTap: () => {

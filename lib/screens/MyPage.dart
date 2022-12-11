@@ -20,7 +20,12 @@ class _MyPageState extends State<MyPage> {
           child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
-          children: [],
+          children: [
+            Text('My Page'),
+            SizedBox(
+              height: 25,
+            )
+          ],
         ),
       )),
     );

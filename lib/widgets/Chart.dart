@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stock_flutter_app/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../asset/palette.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -17,20 +19,48 @@ Widget chartData(chartName) {
       break;
     default:
   }
-  return GestureDetector(
-      child: Container(
-          margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-          height: 180,
-          decoration: BoxDecoration(
-            color: Palette.bgColor,
-            borderRadius: BorderRadius.circular(15),
+  return Container(
+      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+      height: 280,
+      decoration: BoxDecoration(
+        color: Palette.bgColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 15,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
+          Text('${chartName}'),
+          SizedBox(
+            height: 15,
+          ),
+          Container(
+            height: 180,
             child: WebView(
               initialUrl: url,
               zoomEnabled: true,
               javascriptMode: JavascriptMode.unrestricted,
             ),
-          )));
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.zoom_in),
+                onPressed: () async {
+                  final urlStart = Uri.parse(url);
+                  if (await canLaunchUrl(urlStart)) {
+                    launchUrl(urlStart);
+                  } else {
+                    // ignore: avoid_print
+                    print("Can't launch $url");
+                  }
+                },
+              ),
+              Text('차트 크게보기')
+            ],
+          )
+        ],
+      ));
 }

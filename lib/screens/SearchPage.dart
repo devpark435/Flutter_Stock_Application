@@ -94,8 +94,8 @@ class _SearchPage extends State<SearchPage> {
                                                 logos: logos[searchTextNum],
                                                 rates: stockRateScrap[
                                                     searchTextNum],
-                                                prices: stockAgoRateScrap[
-                                                    searchTextNum],
+                                                prices:
+                                                    dayPriceList[searchTextNum],
                                               )));
                                   return showToast('${searchTextNum}');
                                 } else {
@@ -129,6 +129,7 @@ class _SearchPage extends State<SearchPage> {
                             } else {
                               searchTextNum = stockName!
                                   .indexOf(cp949.encodeToString(searchText));
+                              print(searchTextNum);
                             } //, attributes:  null}}, {title:
                           });
                         },
