@@ -1,7 +1,7 @@
 import 'ChartPage.dart';
 import 'ListPage.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_flutter_app/widgets/customWidget.dart';
+
 import '../asset/palette.dart';
 import 'package:web_scraper/web_scraper.dart';
 import 'package:url_launcher/url_launcher.dart';

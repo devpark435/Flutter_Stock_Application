@@ -4,7 +4,7 @@ import '../firebase/auth_service.dart';
 import 'ChartPage.dart';
 import 'ListPage.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_flutter_app/widgets/customWidget.dart';
+
 import '../asset/palette.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Stock_List.dart';
@@ -94,8 +94,8 @@ class _SearchPage extends State<SearchPage> {
                                                 logos: logos[searchTextNum],
                                                 rates: stockRateScrap[
                                                     searchTextNum],
-                                                prices: stockAgoRateScrap[
-                                                    searchTextNum],
+                                                prices:
+                                                    dayPriceList[searchTextNum],
                                               )));
                                   return showToast('${searchTextNum}');
                                 } else {
@@ -129,6 +129,7 @@ class _SearchPage extends State<SearchPage> {
                             } else {
                               searchTextNum = stockName!
                                   .indexOf(cp949.encodeToString(searchText));
+                              print(searchTextNum);
                             } //, attributes:  null}}, {title:
                           });
                         },
