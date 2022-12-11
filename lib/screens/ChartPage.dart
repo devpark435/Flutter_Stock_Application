@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_flutter_app/firebase/FirestoreService.dart';
@@ -9,6 +9,7 @@ import 'package:stock_flutter_app/screens/newsPage.dart';
 import 'package:stock_flutter_app/screens/SignupPage.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import '../firebase/FirestoreService.dart';
 import '../firebase/auth_service.dart';
 import 'SignupPage.dart';
 
@@ -34,6 +35,7 @@ class _ChartPage extends State<ChartPage> {
   FirestoreService fs = new FirestoreService();
   final auth = FirebaseAuth.instance;
   int Buying = 0;
+  int wallet = 0;
   String selling = ' ';
   int userMoney = 0;
 
@@ -246,25 +248,25 @@ class _ChartPage extends State<ChartPage> {
                                         alignment: Alignment.center,
                                         title: Text("매수"),
                                         actions: <Widget>[
+                                          //
                                           TextButton(
                                               onPressed: () {
-                                                setState(
-                                                  () {
-                                                    int buyPrice = (Buying *
-                                                        int.parse(widget.prices
-                                                            .replaceAll(
-                                                                ',', '')));
 
-                                                    final currentUser =
-                                                        auth.currentUser;
-                                                    if (currentUser != null) {
-                                                      String uid = currentUser
-                                                          .email
-                                                          .toString();
-                                                      buyItem(buyPrice, uid);
-                                                    }
-                                                  },
-                                                );
+                                                setState(() {
+                                                  int buyPrice = (Buying *
+                                                      int.parse(widget.prices
+                                                          .replaceAll(
+                                                              ',', '')));
+                                                  final currentUser =
+                                                      auth.currentUser;
+                                                  if (currentUser != null) {
+                                                    String uid = currentUser
+                                                        .email
+                                                        .toString();
+                                                    buyItem(buyPrice, uid);
+                                                  }
+                                                });
+
                                                 Navigator.pop(context);
                                               }, //매도 확인 버튼 이벤트
                                               child: Text('매수 확인'))

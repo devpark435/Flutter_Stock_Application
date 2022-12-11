@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/screens/Stock_List.dart';
+
 import 'package:web_scraper/web_scraper.dart';
 import '../../widgets/customWidget.dart';
 import 'package:flutter/material.dart';
@@ -464,18 +465,6 @@ class _ListPageState extends State<ListPage> {
               ),
             )
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChartDataTest(
-                          chartcode: 005930,
-                        )));
-          },
-          backgroundColor: Palette.outlineColor,
-          child: Icon(Icons.outbond),
         ),
       ),
     );
