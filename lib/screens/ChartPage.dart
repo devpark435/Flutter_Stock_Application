@@ -173,10 +173,22 @@ class _ChartPage extends State<ChartPage> {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
-                children: [chartArea(widget.items), chartArea(widget.items)],
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Palette.bgColor,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: Palette.outlineColor,
+                      offset: Offset(0, 5),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: chartArea(widget.items),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

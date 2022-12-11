@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../asset/palette.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+//chartArea
 Widget chartArea(chartName) {
   String url = "";
   switch (chartName) {
