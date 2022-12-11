@@ -365,8 +365,11 @@ class _ListPageState extends State<ListPage> {
                                                   ),
                                                 ),
                                               ),
-                                              Text(cp949.decodeString(
-                                                  stockName![index])),
+                                              Text(
+                                                cp949.decodeString(
+                                                    stockName![index]),
+                                                style: Styles.subText,
+                                              ),
                                               Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

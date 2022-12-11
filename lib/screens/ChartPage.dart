@@ -169,7 +169,6 @@ class _ChartPage extends State<ChartPage> {
             backgroundColor: Palette.appbarColor,
             centerTitle: false,
             elevation: 0,
-            title: Text(widget.items),
           ),
           body: SingleChildScrollView(
             child: Column(children: [
@@ -193,7 +192,10 @@ class _ChartPage extends State<ChartPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     widget.logos,
-                    Text(widget.items),
+                    Text(
+                      widget.items,
+                      style: Styles.emText,
+                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -224,7 +226,7 @@ class _ChartPage extends State<ChartPage> {
                 //차트 공간
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: 300,
+                height: 350,
                 decoration: BoxDecoration(
                   color: Palette.bgColor,
                   boxShadow: [
@@ -267,7 +269,10 @@ class _ChartPage extends State<ChartPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("InvestmentGame"),
+                          Text(
+                            "모의투자",
+                            style: Styles.emText,
+                          ),
                           IconButton(
                             icon: const Icon(Icons.attach_money),
                             color: Palette.moneyColor,

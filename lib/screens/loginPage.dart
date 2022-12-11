@@ -213,9 +213,7 @@ class _LoginPage extends State<LoginPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MyPage(title: 'title')));
+                context, MaterialPageRoute(builder: (context) => MyPage()));
           },
           backgroundColor: Palette.outlineColor,
           child: Icon(Icons.people),

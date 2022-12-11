@@ -1,4 +1,5 @@
 import 'package:provider/provider.dart';
+import 'package:stock_flutter_app/screens/loginPage.dart';
 
 import '../firebase/auth_service.dart';
 import 'ChartPage.dart';
@@ -32,7 +33,7 @@ class _SearchPage extends State<SearchPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                  height: 100,
+                  height: 150,
                   width: MediaQuery.of(context).size.width *
                       0.9, //authService.currentUser()
                   child: authService.currentUser() == null
@@ -40,11 +41,26 @@ class _SearchPage extends State<SearchPage> {
                           child: Column(
                             children: [
                               Text(
-                                "로그인이 필요합니다.",
+                                "InvestGame",
+                                style: Styles.mainHeaderText,
                               ),
                               Text(
-                                "Stock Application Logo Area",
+                                "Application",
+                                style: Styles.mainHeaderText2,
                               ),
+                              GestureDetector(
+                                child: Text(
+                                  '로그인이 필요합니다',
+                                  style: Styles.subText,
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              LoginPage(title: 'title'))));
+                                },
+                              )
                             ],
                           ),
                         )
@@ -52,10 +68,12 @@ class _SearchPage extends State<SearchPage> {
                           child: Column(
                             children: [
                               Text(
-                                "환영합니다.",
+                                "InvestGame",
+                                style: Styles.mainHeaderText,
                               ),
                               Text(
-                                "Stock Application Logo Area",
+                                "Application",
+                                style: Styles.mainHeaderText2,
                               ),
                             ],
                           ),
@@ -139,15 +157,6 @@ class _SearchPage extends State<SearchPage> {
                 ),
               )
             ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => stockList()));
-            authService.signOut();
-          },
-          backgroundColor: Palette.outlineColor,
-          child: Icon(Icons.outbond),
-        ),
       );
     });
   }

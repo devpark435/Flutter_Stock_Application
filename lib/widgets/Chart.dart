@@ -17,6 +17,22 @@ Widget chartData(chartName) {
       url =
           "https://ssl.pstatic.net/imgfinance/chart/item/candle/week/373220.png?";
       break;
+    case '카카오':
+      url =
+          "https://ssl.pstatic.net/imgfinance/chart/item/candle/week/035720.png?";
+      break;
+    case 'SK하이닉스':
+      url =
+          "https://ssl.pstatic.net/imgfinance/chart/item/candle/week/000660.png?";
+      break;
+    case '삼성바이오로직스':
+      url =
+          "https://ssl.pstatic.net/imgfinance/chart/item/candle/week/207940.png?";
+      break;
+    case 'NAVER':
+      url =
+          "https://ssl.pstatic.net/imgfinance/chart/item/candle/week/035420.png?";
+      break;
     default:
   }
   return Container(
@@ -29,11 +45,14 @@ Widget chartData(chartName) {
       child: Column(
         children: [
           SizedBox(
-            height: 15,
+            height: 25,
           ),
-          Text('${chartName}'),
+          Text(
+            '${chartName}',
+            style: Styles.subText,
+          ),
           SizedBox(
-            height: 15,
+            height: 25,
           ),
           Container(
             height: 180,
@@ -47,7 +66,10 @@ Widget chartData(chartName) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.zoom_in),
+                icon: Icon(
+                  Icons.zoom_in,
+                  size: 30,
+                ),
                 onPressed: () async {
                   final urlStart = Uri.parse(url);
                   if (await canLaunchUrl(urlStart)) {
@@ -58,7 +80,10 @@ Widget chartData(chartName) {
                   }
                 },
               ),
-              Text('차트 크게보기')
+              Text(
+                '차트 크게보기',
+                style: Styles.subText,
+              )
             ],
           )
         ],

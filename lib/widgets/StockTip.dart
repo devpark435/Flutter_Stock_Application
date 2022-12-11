@@ -22,9 +22,32 @@ Widget stockTips(chartName, cnt) {
         ],
         borderRadius: BorderRadius.circular(15),
       ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(
+            Icons.bar_chart,
+            size: 60,
+          ),
+          Container(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  Text(
+                    '주식차트',
+                    style: Styles.subText,
+                  ),
+                  Text(
+                    '보는 방법',
+                    style: Styles.subText,
+                  )
+                ],
+              )),
+        ],
+      ),
     ),
     onTap: () async {
-      final urlStart = Uri.parse('url');
+      final urlStart = Uri.parse('https://ddnews.co.kr/stock-chart/');
       if (await canLaunchUrl(urlStart)) {
         launchUrl(urlStart);
       } else {

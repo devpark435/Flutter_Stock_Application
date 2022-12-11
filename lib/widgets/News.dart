@@ -24,12 +24,21 @@ Widget newsArea(chartName, cnt) {
           children: [
             Icon(
               Icons.newspaper,
-              size: 40,
+              size: 60,
             ),
             Container(
                 alignment: Alignment.center,
                 child: Column(
-                  children: [Text('${chartName}'), Text('관련 뉴스')],
+                  children: [
+                    Text(
+                      '${chartName}',
+                      style: Styles.subText,
+                    ),
+                    Text(
+                      '관련 뉴스',
+                      style: Styles.subText,
+                    )
+                  ],
                 )),
           ],
         )),

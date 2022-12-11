@@ -16,7 +16,15 @@ class Styles {
   //MARK: -itemName
   static const TextStyle headerText =
       TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.w900);
-  static const TextStyle mainText =
+  static const TextStyle mainHeaderText = TextStyle(
+      color: Color.fromARGB(237, 90, 163, 222),
+      fontSize: 30,
+      fontWeight: FontWeight.w900);
+  static const TextStyle mainHeaderText2 = TextStyle(
+      color: Color.fromARGB(255, 67, 125, 172),
+      fontSize: 30,
+      fontWeight: FontWeight.w900);
+  static const TextStyle emText =
       TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600);
   static const TextStyle subText =
       TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600);

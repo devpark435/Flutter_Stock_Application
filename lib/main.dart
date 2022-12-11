@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/asset/palette.dart';
 import 'package:stock_flutter_app/screens/ChartPage.dart';
+import 'package:stock_flutter_app/screens/MyPage.dart';
 import '/screens/ListPage.dart';
 import './screens/SearchPage.dart';
 import 'firebase/FirestoreService.dart';
@@ -58,7 +60,7 @@ class MarketPage extends StatefulWidget {
 
 class _MarketPageState extends State<MarketPage> {
   int _selectedIndex = 1;
-
+  final auth = FirebaseAuth.instance;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -68,7 +70,7 @@ class _MarketPageState extends State<MarketPage> {
       dayPriceList: [],
     ),
     SearchPage(title: "title"),
-    LoginPage(title: "title")
+    MyPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -87,24 +89,23 @@ class _MarketPageState extends State<MarketPage> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart),
-              label: 'Chart',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'MyPage',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Palette.outlineColor,
-          onTap: _onItemTapped,
-        ),
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart),
+                label: 'Chart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people),
+                label: 'MyPage',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Palette.outlineColor,
+            onTap: _onItemTapped),
       );
     });
   }
