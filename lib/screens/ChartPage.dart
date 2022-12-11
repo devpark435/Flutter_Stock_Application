@@ -7,6 +7,7 @@ import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../firebase/auth_service.dart';
 
+
 class ChartPage extends StatefulWidget {
   const ChartPage({
     super.key,
@@ -27,6 +28,7 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPage extends State<ChartPage> {
   int Buying = 0;
+  int wallet = 0;
   String selling = ' ';
   @override
   Widget build(BuildContext context) {
@@ -250,8 +252,16 @@ class _ChartPage extends State<ChartPage> {
                                         alignment: Alignment.center,
                                         title: Text("매수"),
                                         actions: <Widget>[
+                                          //
                                           TextButton(
-                                              onPressed: () {}, //매도 확인 버튼 이벤트
+                                              onPressed: () {
+                                                setState(() {
+                                                  wallet = Buying *
+                                                      int.parse(widget.prices
+                                                          .replaceAll(',', ''));
+                                                });
+                                                Navigator.pop(context);
+                                              }, //매도 확인 버튼 이벤트
                                               child: Text('매도 확인'))
                                         ],
                                         backgroundColor: Palette.bgColor,

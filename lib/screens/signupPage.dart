@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:provider/provider.dart';
 import 'package:stock_flutter_app/screens/loginPage.dart';
 
@@ -188,62 +187,62 @@ class _SignupPage extends State<SignupPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             onTap: () {
-                              if (signPW==checkPW) {
+                              if (signPW == checkPW) {
                                 authService.signUp(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                onSuccess: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage(
-                                              title: '',
-                                            )),
-                                  );
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  onSuccess: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage(
+                                                title: '',
+                                              )),
+                                    );
 
-                                  showDialog(
-                                      context: context,
-                                      builder: ((context) {
-                                        return AlertDialog(
-                                          title: const Text('환영합니다'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: [
-                                                Text('회원가입성공'),
-                                              ],
+                                    showDialog(
+                                        context: context,
+                                        builder: ((context) {
+                                          return AlertDialog(
+                                            title: const Text('환영합니다'),
+                                            content: SingleChildScrollView(
+                                              child: ListBody(
+                                                children: [
+                                                  Text('회원가입성공'),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }));
-                                  // 회원가입 성공
-                                  /* ScaffoldMessenger.of(context)
+                                          );
+                                        }));
+                                    // 회원가입 성공
+                                    /* ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                   content: Text("회원가입 성공"),
                                 )); */
-                                },
-                                onError: (err) {
-                                  // 에러 발생
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(err),
-                                  ));
-                                },
-                              );
+                                  },
+                                  onError: (err) {
+                                    // 에러 발생
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(err),
+                                    ));
+                                  },
+                                );
                               } else {
                                 showDialog(
-                                      context: context,
-                                      builder: ((context) {
-                                        return AlertDialog(
-                                          title: const Text('비밀번호를 확인해주세요'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: [
-                                                Text('두 비밀번호가 일치하지 않습니다'),
-                                              ],
-                                            ),
+                                    context: context,
+                                    builder: ((context) {
+                                      return AlertDialog(
+                                        title: const Text('비밀번호를 확인해주세요'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: [
+                                              Text('두 비밀번호가 일치하지 않습니다'),
+                                            ],
                                           ),
-                                        );
-                                      }));
+                                        ),
+                                      );
+                                    }));
                               }
                             },
                           )

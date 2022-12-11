@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'YahooTest.dart';
 import 'package:flutter/material.dart';
 import 'package:stock_flutter_app/screens/Stock_List.dart';
+import 'package:stock_flutter_app/screens/YahooTest.dart';
 import 'package:web_scraper/web_scraper.dart';
 import '../../widgets/customWidget.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,8 @@ import '../asset/palette.dart';
 import '../screens/ChartPage.dart';
 import 'package:cp949/cp949.dart' as cp949;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'ChartDataTest.dart';
 
 var items = List<String>.generate(50, (i) => "카카오 $i");
 var logos = List<Widget>.generate(
@@ -106,12 +111,12 @@ class _ListPageState extends State<ListPage> {
     fetchProducts();
   }
 
-  // @override
-  // void didUpdateWidget(Widget oldWidget) {
-  //   if (oldWidget. != widget.dayPriceList) {
-  //     initState();
-  //   }
-  // }
+  @override
+  void didUpdateWidget(oldWidget) {
+    if (oldWidget.dayPriceList != widget.dayPriceList) {
+      fetchProducts();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -461,14 +466,14 @@ class _ListPageState extends State<ListPage> {
             )
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context, MaterialPageRoute(builder: (context) => stockList()));
-        //   },
-        //   backgroundColor: Palette.outlineColor,
-        //   child: Icon(Icons.outbond),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => YahooTest()));
+          },
+          backgroundColor: Palette.outlineColor,
+          child: Icon(Icons.outbond),
+        ),
       ),
     );
   }
