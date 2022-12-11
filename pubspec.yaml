@@ -47,6 +47,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   firebase_core: ^2.4.0
   cloud_firestore: ^4.2.0
+  intl: ^0.17.0 
 
 dev_dependencies:
   flutter_test:

@@ -13,6 +13,7 @@ import '../firebase/FirestoreService.dart';
 import '../firebase/auth_service.dart';
 import 'SignupPage.dart';
 import 'Chart.dart';
+import 'package:intl/intl.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({
@@ -34,6 +35,7 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPage extends State<ChartPage> {
   FirestoreService fs = new FirestoreService();
+  FirestoreService logfs = new FirestoreService();
   final auth = FirebaseAuth.instance;
   int Buying = 0;
   int wallet = 0;
@@ -44,32 +46,50 @@ class _ChartPage extends State<ChartPage> {
 
   Future<void> buyItem(int buyPrice, String uid) async {
     if (Buying != 0) {
-      final fs = FirestoreService();
       final snapshot =
           await fs.userCollection.where('uid', isEqualTo: uid).get();
       final documents = snapshot.docs;
       int index = 0;
       final doc = documents[index];
+
+      final logSnapshot =
+          await fs.logCollection.where('uid', isEqualTo: uid).get();
+      final logDocuments = logSnapshot.docs;
+      final logDocs = logDocuments[index];
+
       int currentMoney = doc.get('money');
       int currentStockAmount = 0;
-      print("매수: ${widget.items}");
+      print("매수:${widget.items}/uid:${uid}");
 
       try {
+        print("매수:${widget.items}/uid:${uid}");
         int currentStockAmount = doc.get(widget.items);
-        double currentStockAP = doc.get(widget.items + " 평균단가");
+        double currentStockAP = // 평균단가 변수
+            ((doc.get(widget.items + " 평균단가") * currentStockAmount) +
+                    buyPrice) /
+                (currentStockAmount + Buying);
         fs.userCollection.doc(uid).update({
           'money': currentMoney - buyPrice,
           widget.items: currentStockAmount + Buying,
-          widget.items + " 평균단가":
-              ((currentStockAP * currentStockAmount) + buyPrice) /
-                  (currentStockAmount + Buying)
+          widget.items + " 평균단가": currentStockAP
+        });
+
+        fs.logCollection.doc(uid).update({
+          DateTime.now().toString():
+              "매수/${widget.items}/${Buying}주/구매가:${currentStockAP}}"
         });
       } catch (e) {
         print("에러: ${e}");
+        int currentStockAmount = 0;
+        double currentStockAP = buyPrice / Buying;
         fs.userCollection.doc(uid).update({
           'money': currentMoney - buyPrice,
           widget.items: currentStockAmount + Buying,
-          widget.items + " 평균단가": buyPrice / Buying
+          widget.items + " 평균단가": currentStockAP
+        });
+        fs.logCollection.doc(uid).update({
+          DateTime.now().toString():
+              "매수/${widget.items}/${Buying}주/구매가:${currentStockAP}}"
         });
       }
     }
@@ -77,40 +97,54 @@ class _ChartPage extends State<ChartPage> {
 
   Future<void> sellItem(int sellPrice, String uid) async {
     if (int.parse(selling) != 0) {
-      final fs = FirestoreService();
       final snapshot =
           await fs.userCollection.where('uid', isEqualTo: uid).get();
       final documents = snapshot.docs;
       int index = 0;
       final doc = documents[index];
+
+      final logSnapshot =
+          await fs.logCollection.where('uid', isEqualTo: uid).get();
+      final logDocuments = logSnapshot.docs;
+      final logDocs = logDocuments[index];
+
       int currentMoney = doc.get('money');
       int currentStockAmount = 0;
-      print("매도: ${widget.items}");
 
       try {
+        print("매도:${widget.items}/uid:${uid}");
         int currentStockAmount = doc.get(widget.items);
-        double currentStockAP = doc.get(widget.items + " 평균단가");
-        if (currentStockAmount - int.parse(selling) != 0) {
-          fs.userCollection.doc(uid).update({
-            'money': currentMoney + sellPrice,
-            widget.items: currentStockAmount - int.parse(selling),
-            widget.items + " 평균단가":
-                ((currentStockAP * currentStockAmount) - 5000000) /
-                    (currentStockAmount - int.parse(selling))
-          });
-        } else {
-          fs.userCollection.doc(uid).update({
-            'money': currentMoney + sellPrice,
-            widget.items: currentStockAmount - int.parse(selling),
-            widget.items + " 평균단가": 0
-          });
+        if (currentStockAmount > 0) {
+          if (currentStockAmount - int.parse(selling) > 0) {
+            double currentStockAP = // 평균단가 변수
+                ((doc.get(widget.items + " 평균단가") * currentStockAmount) -
+                        sellPrice) /
+                    (currentStockAmount - int.parse(selling));
+
+            fs.userCollection.doc(uid).update({
+              'money': currentMoney + sellPrice,
+              widget.items: currentStockAmount - int.parse(selling),
+              widget.items + " 평균단가": currentStockAP
+            });
+            fs.logCollection.doc(uid).update({
+              DateTime.now().toString():
+                  "매도/${widget.items}/${selling}주/판매가:${currentStockAP}}"
+            });
+          } else if (currentStockAmount - int.parse(selling) == 0) {
+            double currentStockAP = doc.get(widget.items + " 평균단가");
+            fs.userCollection.doc(uid).update({
+              'money': currentMoney + sellPrice,
+              widget.items: currentStockAmount - int.parse(selling),
+              widget.items + " 평균단가": 0
+            });
+            fs.logCollection.doc(uid).update({
+              DateTime.now().toString():
+                  "매도/${widget.items}/${selling}주/판매가:${currentStockAP}}"
+            });
+          }
         }
       } catch (e) {
         print("에러: ${e}");
-        fs.userCollection.doc(uid).update({
-          'money': currentMoney + sellPrice,
-          widget.items: currentStockAmount - int.parse(selling)
-        });
       }
     }
   }
