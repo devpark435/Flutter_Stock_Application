@@ -4,7 +4,7 @@ import '../firebase/auth_service.dart';
 import 'ChartPage.dart';
 import 'ListPage.dart';
 import 'package:flutter/material.dart';
-import 'package:stock_flutter_app/widgets/customWidget.dart';
+
 import '../asset/palette.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Stock_List.dart';

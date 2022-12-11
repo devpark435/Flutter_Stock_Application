@@ -174,6 +174,7 @@ class _ChartPage extends State<ChartPage> {
                 ),
               ),
               Container(
+                //차트 공간
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: 300,
