@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_flutter_app/screens/ListPage.dart';
@@ -6,6 +7,7 @@ import 'package:stock_flutter_app/screens/newsPage.dart';
 import '../asset/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../firebase/auth_service.dart';
+import '../firebase/FirestoreService.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({
@@ -26,9 +28,31 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPage extends State<ChartPage> {
+  FirestoreService fs = new FirestoreService();
+  final auth = FirebaseAuth.instance;
   int Buying = 0;
   int wallet = 0;
   String selling = ' ';
+  Future<void> buyItem(int buyPrice, String uid) async {
+    final fs = FirestoreService();
+    final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
+    final documents = snapshot.docs;
+    int index = 0;
+    final doc = documents[index];
+    int currentMoney = doc.get('money');
+    fs.userCollection.doc(uid).update({'money': currentMoney - buyPrice});
+  }
+
+  Future<void> sellItem(int sellPrice, String uid) async {
+    final fs = FirestoreService();
+    final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
+    final documents = snapshot.docs;
+    int index = 0;
+    final doc = documents[index];
+    int currentMoney = doc.get('money');
+    fs.userCollection.doc(uid).update({'money': currentMoney + sellPrice});
+  }
+
   @override
   Widget build(BuildContext context) {
     List<_SalesData> data = [
@@ -259,6 +283,14 @@ class _ChartPage extends State<ChartPage> {
                                                       int.parse(widget.prices
                                                           .replaceAll(
                                                               ',', '')));
+                                                  final currentUser =
+                                                      auth.currentUser;
+                                                  if (currentUser != null) {
+                                                    String uid = currentUser
+                                                        .email
+                                                        .toString();
+                                                    buyItem(buyPrice, uid);
+                                                  }
                                                 });
                                                 Navigator.pop(context);
                                               }, //매도 확인 버튼 이벤트
