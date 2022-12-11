@@ -17,17 +17,35 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            Text('My Page'),
+            Container(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  'My Page',
+                  style: Styles.headerText,
+                ),
+              ),
+            ),
             SizedBox(
               height: 25,
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: 150,
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Palette.moneyColor),
+              child: Column(
+                children: [Text('ID'), Text('E-mail'), Text('Wallet')],
+              ),
             )
           ],
         ),
-      )),
+      ),
     );
   }
 }
