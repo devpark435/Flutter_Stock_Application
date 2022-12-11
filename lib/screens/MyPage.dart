@@ -81,7 +81,6 @@ class _MyPageState extends State<MyPage> {
     super.initState();
     final currentUser = auth.currentUser;
     eMail = currentUser!.email.toString();
-
     setWallet(eMail);
   }
 
@@ -102,7 +101,7 @@ class _MyPageState extends State<MyPage> {
                       children: [
                         Text(
                           'My Page',
-                          style: Styles.headerText,
+                          style: Styles.mainHeaderText,
                         ),
                         IconButton(
                           icon: Icon(Icons.refresh_sharp),
