@@ -43,50 +43,75 @@ class _ChartPage extends State<ChartPage> {
   get index => null;
 
   Future<void> buyItem(int buyPrice, String uid) async {
-    final fs = FirestoreService();
-    final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
-    final documents = snapshot.docs;
-    int index = 0;
-    final doc = documents[index];
-    int currentMoney = doc.get('money');
-    int currentStockAmount = 0;
-    print("매수: ${widget.items}");
-    try {
-      int currentStockAmount = doc.get(widget.items);
-      fs.userCollection.doc(uid).update({
-        'money': currentMoney - buyPrice,
-        widget.items: currentStockAmount + Buying
-      });
-    } catch (e) {
-      print("에러: ${e}");
-      fs.userCollection.doc(uid).update({
-        'money': currentMoney - buyPrice,
-        widget.items: currentStockAmount + Buying
-      });
+    if (Buying != 0) {
+      final fs = FirestoreService();
+      final snapshot =
+          await fs.userCollection.where('uid', isEqualTo: uid).get();
+      final documents = snapshot.docs;
+      int index = 0;
+      final doc = documents[index];
+      int currentMoney = doc.get('money');
+      int currentStockAmount = 0;
+      print("매수: ${widget.items}");
+
+      try {
+        int currentStockAmount = doc.get(widget.items);
+        double currentStockAP = doc.get(widget.items + " 평균단가");
+        fs.userCollection.doc(uid).update({
+          'money': currentMoney - buyPrice,
+          widget.items: currentStockAmount + Buying,
+          widget.items + " 평균단가":
+              ((currentStockAP * currentStockAmount) + buyPrice) /
+                  (currentStockAmount + Buying)
+        });
+      } catch (e) {
+        print("에러: ${e}");
+        fs.userCollection.doc(uid).update({
+          'money': currentMoney - buyPrice,
+          widget.items: currentStockAmount + Buying,
+          widget.items + " 평균단가": buyPrice / Buying
+        });
+      }
     }
   }
 
   Future<void> sellItem(int sellPrice, String uid) async {
-    final fs = FirestoreService();
-    final snapshot = await fs.userCollection.where('uid', isEqualTo: uid).get();
-    final documents = snapshot.docs;
-    int index = 0;
-    final doc = documents[index];
-    int currentMoney = doc.get('money');
-    int currentStockAmount = 0;
-    print("매도: ${widget.items}");
-    try {
-      int currentStockAmount = doc.get(widget.items);
-      fs.userCollection.doc(uid).update({
-        'money': currentMoney + sellPrice,
-        widget.items: currentStockAmount - int.parse(selling)
-      });
-    } catch (e) {
-      print("에러: ${e}");
-      fs.userCollection.doc(uid).update({
-        'money': currentMoney + sellPrice,
-        widget.items: currentStockAmount - int.parse(selling)
-      });
+    if (int.parse(selling) != 0) {
+      final fs = FirestoreService();
+      final snapshot =
+          await fs.userCollection.where('uid', isEqualTo: uid).get();
+      final documents = snapshot.docs;
+      int index = 0;
+      final doc = documents[index];
+      int currentMoney = doc.get('money');
+      int currentStockAmount = 0;
+      print("매도: ${widget.items}");
+
+      try {
+        int currentStockAmount = doc.get(widget.items);
+        double currentStockAP = doc.get(widget.items + " 평균단가");
+        if (currentStockAmount - int.parse(selling) != 0) {
+          fs.userCollection.doc(uid).update({
+            'money': currentMoney + sellPrice,
+            widget.items: currentStockAmount - int.parse(selling),
+            widget.items + " 평균단가":
+                ((currentStockAP * currentStockAmount) - 5000000) /
+                    (currentStockAmount - int.parse(selling))
+          });
+        } else {
+          fs.userCollection.doc(uid).update({
+            'money': currentMoney + sellPrice,
+            widget.items: currentStockAmount - int.parse(selling),
+            widget.items + " 평균단가": 0
+          });
+        }
+      } catch (e) {
+        print("에러: ${e}");
+        fs.userCollection.doc(uid).update({
+          'money': currentMoney + sellPrice,
+          widget.items: currentStockAmount - int.parse(selling)
+        });
+      }
     }
   }
 
